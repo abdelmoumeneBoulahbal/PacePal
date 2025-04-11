@@ -1,0 +1,23 @@
+:root {
+  --color-primary: #f0971d;
+  --color-accent: #f74f92;
+  --color-danger: #c92325;
+  --color-alert: #e0420d;
+  --color-warning: #f9b949;
+  --color-success: #fcde87;
+  --color-surface: #ff7b00;
+  --color-border: #4527a0;
+  --color-text: #362821;
+  --color-bg: #fffaf4;
+  --color-sky: #00cfff;
+  --color-lime: #c6ff00;
+  --color-flame-light: #ffa14a;   /* Light flame orange */
+  --color-heat: #ff2f1f;          /* Hot lava red */
+  --color-charcoal: #1d1614;      /* Shadow/dark edge in flames */
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
