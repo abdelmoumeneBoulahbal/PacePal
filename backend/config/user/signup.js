@@ -76,7 +76,14 @@ const signup = async (userData) => {
           ]
         );
 
-        return result.rows[0];
+        const newUser = result.rows[0];
+
+        return {
+          user_id: newUser.user_id,
+          email: newUser.email,
+          message: "Signup Successful"
+
+        }
     }catch(error){
         console.error('⚠️ Database Error Details:', {
             message: error.message,
