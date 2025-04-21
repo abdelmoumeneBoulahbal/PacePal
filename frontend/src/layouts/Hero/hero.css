@@ -1,0 +1,76 @@
+.hero-section{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    align-items: center;
+}
+
+.hero-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.hero-runner-img{
+    z-index: 1;
+    width: 50rem;
+    background-color: transparent;
+}
+
+.dots, .add{
+    
+    z-index: 0;
+    width: 400px;
+    position: fixed;
+    bottom: 0;
+}
+.dts-txtr-1{
+    top: 10%;
+    right: 60%;
+}
+.dts-txtr-2{
+    top: 60%;
+    right: 0%;
+    left: 0;
+}
+.dts-txtr-3{
+    top: 10%;
+    right: 0%;
+}
+
+.cross{
+    margin: 1rem;
+    position: fixed;
+    z-index: 0;
+    width: 50px;
+}
+
+.crs-txtr-1{
+    top: 30%;
+    right: 10%;
+}
+.crs-txtr-2{
+    top: 20%;
+    left: 25%;
+}
+.crs-txtr-3{
+    top: 50%;
+    left: 20%;
+}
+.crs-txtr-4{
+    top: 70%;
+    bottom: 0;
+}
+
+
+.add-txtr-1{
+    top: 70%;
+    left: 0;
+    bottom: 0;
+}
+.add-txtr-2{
+    top: 20%;
+    bottom: 0;
+    left: 60%;
+}

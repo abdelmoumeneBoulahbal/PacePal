@@ -1,0 +1,63 @@
+.hero-titles-div{
+    display: flex;
+    flex-direction: column;
+
+    font-size: 4rem;
+    line-height: 3.8rem;
+    z-index: 1;
+    margin: auto;
+    align-items: center;
+
+    color: var(--text-dark);
+
+    margin-top: 70px ;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+}
+
+.hero-titles-div h2{
+    font-weight: lighter;
+    font-family: "Bebas Neue";
+}
+
+.t1{
+    margin-bottom: -.1rem;
+    filter: opacity(.8);
+}
+.t2{
+    filter: opacity(.7);
+    margin-bottom: -0.05rem;
+}
+.t3{
+    filter: opacity(.65);
+    margin-bottom: 5px;
+}
+.t4{
+    filter: opacity(.55);
+    margin-bottom: 8px;
+}
+.t5{
+    filter: opacity(.5);
+    margin-bottom: 10px;
+}
+.t6{
+    filter: opacity(.4);
+    margin-bottom: 12px;
+}
+.t7{
+    filter: opacity(.3);
+    margin-bottom: 10px;
+}
+.t8{
+    filter: opacity(.18);
+    margin-bottom: 5px;
+}
+.t9{
+    filter: opacity(.08);
+    margin-bottom: -2rem;
+}
+

@@ -1,19 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
 :root {
-  --color-primary: #f0971d;
-  --color-accent: #f74f92;
-  --color-danger: #c92325;
-  --color-alert: #e0420d;
-  --color-warning: #f9b949;
-  --color-success: #fcde87;
-  --color-surface: #ff7b00;
-  --color-border: #4527a0;
-  --color-text: #362821;
-  --color-bg: #fffaf4;
-  --color-sky: #00cfff;
-  --color-lime: #c6ff00;
-  --color-flame-light: #ffa14a;   /* Light flame orange */
-  --color-heat: #ff2f1f;          /* Hot lava red */
-  --color-charcoal: #1d1614;      /* Shadow/dark edge in flames */
+  /* Primary Colors */
+  --primary-color: #DC3545;  
+  --primary-dark:  #B02130;   
+  --primary-light: #FF4D5E;  
+
+  /* Backgrounds */
+  --bg-dark: #000000;        
+  --bg-light: #222222;       
+
+  /* Text Colors */
+  --text-dark: #ffffff;      
+  --text-light: #f1f1f1;
+
+
+  --alert-info: #007bff; 
+  --blue-shade-lighter: #5B9DEA;
+  --blue-shade-light: #0096FF;
+  --blue-shade-dark: #3D7DCA;
+
+  --teal: #30B8AB;
+
+  --orange: #FF6F37;
+
+  --magenta: #7F00A9;
+  --magenta-lighter: #9100C1;
+
+  --alert-success: #2ABF63;  
+  --alert-warning: #ffc107;  
+  --alert-danger: #E41E3F;   
+  
 }
 
 *{

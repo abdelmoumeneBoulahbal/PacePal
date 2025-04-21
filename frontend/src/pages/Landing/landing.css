@@ -1,0 +1,40 @@
+.nav-hero-container{
+    background-color: var(--primary-color);
+    padding-top: 2rem;
+    height: 104vh;
+    inset: 0;
+    z-index: 0;
+}
+.nav-hero-container::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* shorthand for top/right/bottom/left: 0 */
+    background-image: url('../../assets/texture/Perlin.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.3; /* ✅ change this to your desired transparency */
+    z-index: 0;
+  }
+
+.hero-sfm-div{
+    color: var(--text-dark);
+    font-family: "Bebas Neue";
+    display: flex;
+    float: right;
+    margin-right: 3rem;
+    height: 2vh;
+    align-items: baseline;
+    background: url("../../assets/texture/add.png");
+}
+.hero-sfm-div img{
+    margin-top: .1rem;
+    margin-left: .5rem;
+    height: 20px;
+}
+.hero-sfm-p{
+    filter: opacity(.3);
+    display: flex;
+    margin: auto;
+    align-items: flex-end !important;
+}

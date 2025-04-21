@@ -1,0 +1,139 @@
+/* NAVBAR BASE */
+.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-logo-div {
+    display: flex;
+    margin-left: 5rem;
+  }
+  
+  .nav-logo-div h1 {
+    font-family: "Bebas Neue";
+    color: var(--text-dark);
+  }
+  
+  .nav-btn-div {
+    margin-right: 5rem;
+  }
+  
+  /* BUTTON BASE */
+  .nav-runit-btn {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  
+    width: 170px;
+    padding: 10px;
+    padding-top: .8rem ;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    border: 2px solid transparent;
+  
+    background-color: var(--blue-shade-light);
+    color: var(--text-light);
+    font-family: 'Bebas Neue';
+  }
+  
+  /* TEXT ANIMATION */
+  .btn-text {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+  }
+  
+  .nav-runit-btn:hover .btn-text {
+    animation: fade-text-out 0.3s forwards, fade-text-in 0.3s forwards 1s;
+  }
+  
+  @keyframes fade-text-out {
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fade-text-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* HERMES LEG */
+  .hermes-leg {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%) scaleX(-1); /* Mirrored */
+    height: 30px;
+    opacity: 0;
+    pointer-events: none;
+    
+  }
+  
+  .nav-runit-btn:hover .hermes-leg {
+    animation: fly-in 1.2s forwards;
+    opacity: 1;
+  }
+  
+  @keyframes fly-in {
+    0% {
+      left: -40px;
+      opacity: 1;
+    }
+  
+    100% {
+      left: 200px;
+      opacity: 1;
+    }
+  }
+  
+  /* SPEED LINES */
+  .speed-lines {
+    position: absolute;
+    top: 50%;
+    left: -60px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .speed-lines .line {
+    display: block;
+    height: 2px;
+    width: 60px;
+    margin: 3px 0;
+    background: linear-gradient(to right, white, transparent);
+    opacity: 0;
+    position: absolute;
+    left: 0;
+  }
+  
+  .nav-runit-btn:hover .speed-lines .line:nth-child(1) {
+    animation: dash-line 1.5s forwards;
+    top: -8px;
+  }
+  .nav-runit-btn:hover .speed-lines .line:nth-child(2) {
+    animation: dash-line 1.5s 0.1s forwards;
+    top: 0;
+  }
+  .nav-runit-btn:hover .speed-lines .line:nth-child(3) {
+    animation: dash-line 1.5s 0.2s forwards;
+    top: 8px;
+  }
+  
+  @keyframes dash-line {
+    0% {
+      left: -60px;
+      opacity: 1;
+    }
+
+    100% {
+      left: 200px;
+      opacity: 0;
+    }
+  }
+  
