@@ -1,0 +1,35 @@
+.marquee-container{
+    padding: 1rem;
+    border-top: 5px solid var(--text-dark);
+    border-bottom: 5px solid var(--text-dark);
+}
+
+.marquee {
+    display: flex;
+    justify-content: space-evenly;
+}
+.marquee-group {
+    display: flex;
+    align-items: center;
+    margin-right: 0rem; /* Spacing between group and Hermes */
+  }
+  
+  .marquee-item {
+    margin-top: .1rem;
+    font-size: 2rem;
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--text-dark);
+  }
+  
+  .marquee-icon {
+    margin: .5rem;
+    height: 30px;
+  }
+  
+  .marquee-hermes {
+    height: 60px;
+    margin-right: 3rem;
+    margin-left: 3rem;
+    transform: scaleX(-1); /* Mirror if needed */
+  }
+  

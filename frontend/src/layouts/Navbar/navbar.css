@@ -68,7 +68,7 @@
     position: absolute;
     left: 20px;
     top: 50%;
-    transform: translateY(-50%) scaleX(-1); /* Mirrored */
+    transform: translateY(-50%) scaleX(-1) rotate(-5deg); /* Mirrored */
     height: 30px;
     opacity: 0;
     pointer-events: none;
@@ -82,6 +82,7 @@
   
   @keyframes fly-in {
     0% {
+      
       left: -40px;
       opacity: 1;
     }

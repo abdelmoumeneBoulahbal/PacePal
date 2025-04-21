@@ -3,6 +3,7 @@ import './hero.css';
 
 import Text from '../../components/Text/Text'
 
+
 /* Assets */
 import heroImg from "../../assets/hero/hero-4.png"
 
@@ -32,7 +33,6 @@ export default function Hero() {
 
           <img src={adds} className='add add-txtr-1'/>
           <img src={adds} className='add add-txtr-2'/>
-
 
         </div>
       </section>
