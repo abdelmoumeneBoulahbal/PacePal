@@ -19,10 +19,8 @@
 }
 
 .dots, .add{
-    
     z-index: 0;
-    width: 400px;
-    position: fixed;
+    position: absolute;
     bottom: 0;
 }
 .dts-txtr-1{
@@ -41,9 +39,10 @@
 
 .cross{
     margin: 1rem;
-    position: fixed;
+    position: absolute;
     z-index: 0;
     width: 50px;
+    overflow: hidden;
 }
 
 .crs-txtr-1{
