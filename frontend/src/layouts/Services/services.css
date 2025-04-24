@@ -1,13 +1,14 @@
 .srv-section{
-    margin-bottom: 10rem;
+    margin-bottom: 30rem;
     height: 100vh;
     width: 100%;
-    background-color: var(--primary-color);
 }
 .srv-content {
     display: flex;
     margin: auto;
     justify-content: center;
+    border-bottom: 3px solid var(--black);
+
 }
 .srv-right, .srv-left{
     width: 50%;
@@ -73,6 +74,7 @@
     font-size: 1.2rem;
     line-height: 2rem;
     max-width: 70%;
+    font-family: "Archivo Narrow";
 }
 
 .srv-btn-div{
@@ -113,6 +115,7 @@
   }
   
   .gi-srv-arrow {
+    margin-top:.1rem;
     font-size: 3rem; /* Large arrow */
     opacity: 0;
     transform: translateX(-80px);

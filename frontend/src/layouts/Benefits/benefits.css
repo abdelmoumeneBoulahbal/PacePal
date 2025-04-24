@@ -1,0 +1,90 @@
+.bnf-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    margin: auto;
+    margin-bottom: 25rem;
+    border: 2px solid black;
+}
+.bnf-left, .bnf-right{
+    display: flex;
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+    height: 100vh;
+    padding: 1rem;
+    color: var(--black);
+}
+
+.bnf-right{
+    color: var(--text-dark);
+    background-color: var(--primary-dark);
+}
+.bnf-left{
+    background-image: url('../../assets/texture/waves.png');
+    background-size: cover;
+    background-position: center;
+}
+
+
+.bnf-left h2{
+    font-size: 5rem;
+    font-family: 'Bebas Neue';
+    font-weight: lighter;
+}
+.bnf-left-content{
+    display: flex;
+    margin-left: 5rem !important;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: auto;
+}
+.bnf-left p{
+    font-size: 1.3rem;
+    max-width: 60%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    font-family: 'Bebas Neue';
+}
+
+.bnf-left button{
+    width: 180px; /* Fixed width */
+    height: 60px;  /* Fixed height */
+    font-size: 1.6rem;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    font-family: "Bebas Neue", sans-serif;
+    color: var(--text-dark);
+    transition: all 0.4s ease;
+}
+
+.bnf-left button:hover{
+    cursor: pointer;
+    background-color: var(--primary-light);
+}
+
+
+
+.bnf-right-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+    font-size: 1.8rem;
+    font-family: 'Bebas Neue';
+}
+
+.bnf-right-content h3{
+    font-weight: lighter;
+    display: flex;
+    align-items:baseline;    
+}
+
+.bnf-right img{
+    width: 40px;
+    margin-right: .6rem;
+}

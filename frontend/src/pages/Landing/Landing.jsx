@@ -6,6 +6,9 @@ import Services from '../../layouts/Services/Services'
 import './landing.css'
 
 import arrows from '../../assets/icons/arrows.png'
+import HowTo from '../../layouts/HowTo/HowTo'
+import Benefits from '../../layouts/Benefits/Benefits'
+import Footer from '../../layouts/Footer/Footer'
 
 export default function Landing() {
 
@@ -24,6 +27,9 @@ export default function Landing() {
           </div>
         </div>
         <Services />
+        <HowTo />
+        <Benefits />
+        <Footer />
     </section>
   )
 }

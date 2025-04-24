@@ -13,7 +13,7 @@ const PaceScroll = () => {
     <div className="marquee-container">
     <Marquee speed={50} className="marquee"
      gradient={false} 
-     pauseOnHover={false}
+     pauseOnHover={true}
      autoFill
      >
         <div className="marquee-group">

@@ -1,0 +1,242 @@
+@font-face {
+    font-family: 'Korsson';
+    src: url('../assets/fonts/KORSSON.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'Breuche';
+    src: url('../assets/fonts/Breuche.ttf') format('truetype');
+  }
+
+.footer-section {
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 0;
+    position: relative;
+    
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Social Icons Row */
+  .social-icons-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    position: relative;
+    background-color: #000000;
+  }
+  
+  .social-icon {
+    display: flex;
+    color: #000000;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    opacity: 1;
+    z-index: 2;
+    background-color: var(--text-dark);
+}
+  
+  .social-icon:hover {
+    color: var(--text-dark);
+    background-color: var(--primary-dark);
+    opacity: 0.8;
+  }
+  
+  /* Center Logo */
+  .center-logo {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  
+  
+  .logo-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .logo-inner img {
+    width: 50px;
+    height: auto;
+    z-index: 3;
+  }
+  
+  /* Main Logo Text */
+  .main-logo-text {
+    text-align: center;
+    padding: 60px 0 20px;
+    margin-top: 20px;
+  }
+  
+  .main-logo-text h1 {
+    font-size: 150px;
+    font-weight: lighter;
+    letter-spacing: 1.5rem;
+
+    font-family: "KORSSON", Georgia;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  
+  /* Footer Links */
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    font-size: 12px;
+    margin: 10px 0 30px;
+    font-weight: 400;
+  }
+  
+  .footer-links a {
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    text-transform: uppercase;
+  }
+  
+  .footer-links a:hover {
+    opacity: 1;
+  }
+  
+  /* Footer Content */
+  .footer-content {
+    text-align: center;
+    font-size: 12px;
+    font-family: 'KORSSON';
+    padding-bottom: 30px;
+    opacity: 0.8;
+  }
+  
+  .footer-content p {
+    margin: 2px 0;
+    font-weight: lighter;
+    font-size: 1rem;
+    font-family: "Breuche";
+    letter-spacing: 2px;
+  }
+  
+  .footer-content .tagline {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+  
+  /* CTA Button */
+  .cta-button {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+  }
+  
+  .cta-button a {
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 12px;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  
+  .cta-button a:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+  
+  /* Typography and layout refinements */
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .main-logo-text h1 {
+      font-size: 48px;
+    }
+    
+    .footer-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .social-icons-row {
+      padding: 20px 10px;
+    }
+    
+    .logo-circle {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .logo-inner {
+      width: 85px;
+      height: 85px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .social-icons-row {
+      padding: 15px 5px;
+    }
+    
+    .social-icon {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .main-logo-text h1 {
+      font-size: 36px;
+    }
+    
+    .cta-button {
+      left: 10px;
+      top: 15px;
+    }
+    
+    .cta-button a {
+      padding: 6px 14px;
+      font-size: 10px;
+    }
+    
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .logo-inner {
+      width: 68px;
+      height: 68px;
+    }
+  }

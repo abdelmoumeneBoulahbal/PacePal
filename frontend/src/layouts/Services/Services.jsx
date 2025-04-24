@@ -7,7 +7,10 @@ import PaceScroll from '../../components/Marquee/Marquee'
 function Services() {
   return (
     <section className='srv-section'>
-        <PaceScroll />
+<div style={{ backgroundColor: "var(--primary-color)" }}>
+
+          <PaceScroll />
+        </div>
         <div className="srv-content">
 
 

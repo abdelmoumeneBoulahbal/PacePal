@@ -1,0 +1,21 @@
+.ht-section{
+    background-color: var(--bg-light);
+    color: aliceblue;
+    text-align: center;
+    padding: 5rem;
+    margin-bottom: 25rem;
+    height: 120vh;
+}
+.ht-section h2{
+    font-size: 3.5rem;
+    font-family: "Bebas Neue";
+    font-weight: 400;
+}
+.ht-content-container{
+    margin-top: 100px !important;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    align-items: center;
+    gap: 3rem;
+}

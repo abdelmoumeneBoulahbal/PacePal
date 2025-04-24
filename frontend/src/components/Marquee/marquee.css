@@ -2,7 +2,7 @@
     padding: 1rem;
     border-top: 5px solid var(--text-dark);
     border-bottom: 5px solid var(--text-dark);
-}
+  }
 
 .marquee {
     display: flex;
