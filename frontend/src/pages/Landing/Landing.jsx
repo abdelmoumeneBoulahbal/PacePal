@@ -13,7 +13,7 @@ import Footer from '../../layouts/Footer/Footer'
 export default function Landing() {
 
   return (
-    <section>
+    <section className='land-section'>
         <div 
           className='nav-hero-container'>
           <header>
@@ -25,6 +25,7 @@ export default function Landing() {
             <p className='hero-sfm-p'>SCROLL FOR MORE</p>
             <img src={arrows} alt="" />
           </div>
+
         </div>
         <Services />
         <HowTo />

@@ -1,0 +1,119 @@
+.signup-section{
+    width: fit-content;
+    padding: 2rem;
+    margin: auto;
+    margin-bottom: 15rem;
+    justify-content: center;
+    color: var(--black);
+    font-family: "Archivo Narrow";
+}
+
+.signup-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+.signup-container h2{
+    font-family: "Bebas Neue";
+    font-size: 3rem;
+    letter-spacing: .1rem;
+    margin-top: .2rem;
+}
+.signup-container img{
+    width: 80px;
+    padding: .1rem;
+    height: 80px;
+}
+.img-div-signup{
+    background-color: var(--black);
+    border-radius: 50%;
+    padding: 1rem;
+}
+.signup-container h3{
+    font-family: "Bebas Neue";
+    font-weight: lighter;
+    margin-top: 0rem;
+    font-size: 1.3rem;
+    color: var(--primary-light);
+}
+.form-group{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    flex-direction: column;
+    padding: .5rem;
+    margin: .2rem;
+    width: 500px;
+}
+.fn-div{
+    flex-direction: row;
+    margin: auto;
+    gap: 4rem;
+}
+.fn-div input{
+    margin-top: .5rem;
+    width: 100% !important;
+
+}
+.form-group input{
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+.form-group label{
+    font-weight: 600;
+    margin-bottom: .5rem;
+}
+.radio-group select{
+    border-radius: 20px;
+    padding: .5rem;
+    display: flex;
+    width: 200px !important;
+}
+
+.frm-content-div{
+    background-color: var(--black);
+    color: var(--text-dark);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 1rem;
+    border-radius: 10px;
+}
+.tc-pp-div{
+    margin-top: 1rem;
+    padding-left: .5rem;
+}
+.submit-btn{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    
+    border-radius: 10px;
+    border: 2px solid transparent;
+
+    background-color: var(--primary-color);
+
+    transition: all .7s ease;
+
+    color: var(--text-dark);
+    
+    margin-top: 1rem;
+    padding: .6rem;
+    width: 600px;
+    
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Archivo Narrow';
+}
+
+
+.submit-btn:hover {
+    cursor: pointer;
+    background-color: var(--hover-color);
+  }
