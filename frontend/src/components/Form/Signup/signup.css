@@ -117,3 +117,29 @@
     cursor: pointer;
     background-color: var(--hover-color);
   }
+
+  .signup-container input{
+    transition: all .3s ease;
+    border: 3px solid var(--text-dark);
+  }
+
+.signup-container input:focus{
+    outline: none;
+    border: 3px solid var(--primary-dark);
+    background-color: var(--black);
+    color: var(--text-dark);
+}
+
+.loginNow-div{
+    margin-top: .5rem;
+    font-size: 1.1rem;
+    font-weight: lighter;
+}
+.loginNow-div a{
+    color: var(--blue-shade-dark);
+    transition: all .3s ease;
+}
+.loginNow-div a:hover{
+    cursor: pointer;
+    font-weight: bold;
+}

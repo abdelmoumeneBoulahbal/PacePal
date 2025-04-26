@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 import './auth.css'
 
@@ -9,11 +10,15 @@ import MiniNav from '../../components/Mininav/MiniNav'
 import Footer from '../../layouts/Footer/Footer'
 
 function Auth() {
+  const location = useLocation()
+
   return (
     <section className="auth-section">
-        <MiniNav></MiniNav>
-        <Signup></Signup>
-        <Footer/>
+      <MiniNav />
+      
+      {location.pathname === '/auth/login' ? <Login /> : <Signup />}
+      
+      <Footer />
     </section>
   )
 }

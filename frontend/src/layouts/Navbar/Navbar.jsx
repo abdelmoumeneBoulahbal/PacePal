@@ -20,7 +20,7 @@ export default function Navbar() {
             </div>
             <div className='nav-btn-div'>
                 <button className='nav-runit-btn'
-                        onClick={() => navigate('/auth')}
+                        onClick={() => navigate('/auth/signup')}
                 >
                 <span className='btn-text'>RUNIT</span>
                 <img src={hermesLeg} alt="hermes leg" className='hermes-leg' />

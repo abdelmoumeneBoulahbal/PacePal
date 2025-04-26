@@ -12,6 +12,7 @@ import './signup.css'
 // eslint-disable-next-line no-unused-vars
 import hermesBlack from '../../../assets/icons/hermesBlack.png'
 import runner from '../../../assets/icons/race.png'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -35,6 +36,7 @@ export const Signup = () => {
     document.documentElement.style.setProperty('--hover-color', colorPalette[nextIndex]);
   };
 
+  const navigate = useNavigate();
   return (
     <section className="signup-section">
       <div className="signup-container">
@@ -43,6 +45,9 @@ export const Signup = () => {
         </div>
         <h2>Create an Account</h2>
         <h3>Your Journey starts now</h3>
+        <div className='loginNow-div'>
+          <p>Already have an account? <a  onClick={() => navigate('/auth/login')}>Login Now</a></p>
+        </div>
         <form action="/submit-signup" method="POST">
         <div className='frm-content-div'>
 

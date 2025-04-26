@@ -1,0 +1,15 @@
+.sgpNow-div{
+    border-top: 2px solid var(--text-dark);
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+.additional-text-login a{
+    color: var(--text-dark);
+}
+.additional-text-login a:hover{
+    color: var(--primary-color);
+    cursor: pointer;
+}
+.additional-text-login{
+    margin-top: 1rem;
+}
