@@ -1,0 +1,61 @@
+import React, {useState} from 'react'
+
+import { Sidenav, Nav, Toggle } from 'rsuite';
+import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
+import GroupIcon from '@rsuite/icons/legacy/Group';
+import MagicIcon from '@rsuite/icons/legacy/Magic';
+import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
+import HistoryIcon from '@rsuite/icons/History';
+import OffRoundIcon from '@rsuite/icons/OffRound';
+
+import './sdnav.css'
+
+function MySidenav() {
+    const [activeKey, setActiveKey] = useState('1');
+    
+    return (
+        <div style={{ width: 250, height: '100%', background: '#f8f9fa'}} className='sidenav-container'>
+        
+          <Sidenav  defaultOpenKeys={['3', '4']}>
+            <div className='pfp-container'>
+                <div className='profile-pic'>
+                  
+                </div>
+                <div className='un-div'>
+                  <h3>Username</h3>
+                  <h4>title</h4>
+                </div>
+            </div>
+
+            <hr />
+
+            <Sidenav.Body>
+              <Nav activeKey={activeKey} onSelect={setActiveKey} className='side-nav'>
+                <Nav.Item eventKey="1" icon={<DashboardIcon />} >
+                  Dashboard
+                </Nav.Item>
+                <Nav.Menu eventKey="2" title="Run History" icon={<HistoryIcon />}>
+                  <Nav.Item className='rh-item-sn'>
+                    As an Organizer
+                  </Nav.Item>
+                  <Nav.Item className='rh-item-sn second'>
+                    As a Runner
+                  </Nav.Item>
+                </Nav.Menu>
+                <Nav.Item
+                  eventKey="3"
+                  icon={<GearCircleIcon />}
+                >
+                  Settings
+                </Nav.Item>
+                <Nav.Item icon={<OffRoundIcon />}>
+                  Logout
+                </Nav.Item>
+              </Nav>
+            </Sidenav.Body>
+          </Sidenav>
+      </div>
+    )
+}
+
+export default MySidenav

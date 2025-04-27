@@ -37,7 +37,10 @@
     color: var(--text-light);
     font-family: 'Bebas Neue';
   }
-
+  .nav-btn-div:active{
+    transform: scale(.95);
+    opacity: .9;
+  }
   
   /* TEXT ANIMATION */
   .btn-text {

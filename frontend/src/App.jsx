@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing/Landing';
 import NotFound from './pages/Notfound/NotFound';
 import Auth from './pages/Auth/Auth';
+import Profile from './pages/Profile/Profile';
 
 
 function App() {
@@ -13,6 +14,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/auth/signup" element={<Auth />} />
         <Route path="/auth/login" element={<Auth />} />
+        <Route path="/user/profile" element={<Profile />} />
+
       </Routes>
     </Router>
   );

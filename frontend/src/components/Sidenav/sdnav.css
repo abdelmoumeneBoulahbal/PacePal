@@ -1,0 +1,42 @@
+.sidenav-container{
+    z-index: 2;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.333);
+}
+.pfp-container{
+    margin-left: .5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.profile-pic{
+    width: 80px;
+    background-color: rgba(128, 128, 128, 0.395);
+    height: 80px;
+    border-radius: 50px;
+}
+
+.un-div{
+    display: flex;
+    flex-direction: column;
+
+}
+.un-div h3{
+    font-size: 1.2rem;
+}
+.un-div h4{
+    font-size: 1rem;
+    font-weight: lighter;
+    margin-left: .3rem;
+    margin-top: -.5rem;
+}
+.rh-item-sn{
+    border-top: 1px solid #66666645;    
+}
+.second{
+    border-bottom: 1px solid #66666645;
+}
+.rh-item-sn:hover{
+    background-color: #66666626;
+}

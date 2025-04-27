@@ -19,7 +19,7 @@ function MiniNav() {
 
   return (
     <div className='mini-nav-div'>
-        <div className='mn-nav-div'>
+        <div className='logo-nav-div' onClick={() => navigate('/')}>
             <h1>PacePal</h1>
             <img src={Leg} alt="hermes leg" />
         </div>

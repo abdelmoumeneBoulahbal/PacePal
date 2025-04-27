@@ -1,0 +1,19 @@
+.info-line {
+    padding: 16px;
+  }
+  
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .info-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .info-table td:first-child {
+    font-weight: bold;
+    width: 40%;
+  }
+  

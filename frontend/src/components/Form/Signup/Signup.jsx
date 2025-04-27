@@ -11,7 +11,7 @@ import './signup.css'
 
 // eslint-disable-next-line no-unused-vars
 import hermesBlack from '../../../assets/icons/hermesBlack.png'
-import runner from '../../../assets/icons/race.png'
+import runner from '../../../assets/icons/running2.png'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -41,7 +41,7 @@ export const Signup = () => {
     <section className="signup-section">
       <div className="signup-container">
         <div className=' img-div-signup'>
-        <img src={runner} alt="hermesLeg" />
+          <img src={runner} alt="hermesLeg" />
         </div>
         <h2>Create an Account</h2>
         <h3>Your Journey starts now</h3>

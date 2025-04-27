@@ -13,11 +13,17 @@
     letter-spacing: .2rem;
     font-weight: lighter;
 }
-.mn-nav-div{
+.logo-nav-div{
     display: flex;
     align-items: center;
 }
-.mn-nav-div img{
+.logo-nav-div:active{
+    cursor: pointer;
+}
+.logo-nav-div:hover{
+    cursor: pointer;
+}
+.logo-nav-div img{
     width: 42px;
     transform: scaleX(-1);
 }
@@ -36,7 +42,9 @@
     font-family: 'Bebas Neue';
     transition: all 0.5s ease;
 }
+.lg-mn-btn:active{
+    transform: scale(.9);
+}
 .lg-mn-btn:hover{
-    transform: scale(0.96);
     background-color: var(--primary-light);
 }
