@@ -54,7 +54,7 @@ export const Login = () => {
               type="text" 
               id="username" 
               name="username" 
-              placeholder="Choose a username" 
+              placeholder="Enter your username" 
               required 
             />
           </div>
@@ -65,7 +65,7 @@ export const Login = () => {
               type="password" 
               id="password" 
               name="password" 
-              placeholder="Create a password" 
+              placeholder="Enter your password" 
               required 
             />
           </div>
