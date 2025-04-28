@@ -20,6 +20,8 @@
 }
 
 .hero-titles-div h2{
+    font-size: 6rem !important;
+    line-height: 3.9rem;
     font-weight: lighter;
     font-family: "Bebas Neue";
 }

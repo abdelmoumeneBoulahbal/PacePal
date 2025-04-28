@@ -33,6 +33,7 @@
     font-size: 5rem;
     font-family: 'Bebas Neue';
     font-weight: lighter;
+    line-height: 6rem;
 }
 .bnf-left-content{
     display: flex;

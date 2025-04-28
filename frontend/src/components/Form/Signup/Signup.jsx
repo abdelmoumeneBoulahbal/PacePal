@@ -129,11 +129,11 @@ export const Signup = () => {
           </div>
 
           <div className="form-group radio-group">
-            <label htmlFor="gender">Gender</label>
+            <label  htmlFor="gender">Gender</label>
             <select id="gender" name="gender" required>
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option style={{color: '#16133a'}} value="">Select Gender</option>
+              <option style={{color: '#16133a'}} value="male">Male</option>
+              <option style={{color: '#16133a'}} value="female">Female</option>
             </select>
           </div>
 
