@@ -9,7 +9,7 @@
     font-family: "Archivo Narrow";
 }
 .signup-container input:active, option{
-    color: var(--text-dark);
+    color: var(--text-dark) !important;
 }
 
 .signup-container{
@@ -56,7 +56,7 @@
     margin-top: .5rem;
     width: 205px !important;
 
-    color: var(--black) !important;
+    color: var(--black);
     font-family: "Archivo Narrow";
 
 }
@@ -66,6 +66,7 @@
     border: 2px solid transparent;
     border-radius: 10px;
     display: flex;
+    color: var(--black);
     align-items: center;
     
 }
@@ -78,6 +79,7 @@
     padding: .5rem;
     display: flex;
     width: 200px !important;
+    color: var(--black) !important;
 }
 
 .frm-content-div{

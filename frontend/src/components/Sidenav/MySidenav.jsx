@@ -36,17 +36,18 @@ function MySidenav() {
                 <Nav.Item eventKey="1" icon={<DashboardIcon />} >
                   Dashboard
                 </Nav.Item>
-                <Nav.Menu eventKey="2" title="Run History" icon={<HistoryIcon />}>
+                <Nav.Menu eventKey="2" title="History" icon={<HistoryIcon />}>
                   <Nav.Item onClick={() => navigate('/user/profile/organizer/runCreated')} className='rh-item-sn'>
                     As an Organizer
                   </Nav.Item>
-                  <Nav.Item className='rh-item-sn second'>
+                  <Nav.Item onClick={() => navigate('history')} className='rh-item-sn second'>
                     As a Runner
                   </Nav.Item>
                 </Nav.Menu>
                 <Nav.Item
                   eventKey="3"
                   icon={<GearCircleIcon />}
+                  onClick={()=>navigate('/user/profile/settings')}
                 >
                   Settings
                 </Nav.Item>

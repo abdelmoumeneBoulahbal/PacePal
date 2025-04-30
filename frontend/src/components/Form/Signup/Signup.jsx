@@ -146,7 +146,7 @@ export const Signup = () => {
           <button
              onMouseEnter={handleHover}
              style={{ '--hover-color': colorPalette[currentColorIndex] }}
-          type="submit" className="submit-btn">Create Account</button>
+          type="submit" className="submit-btn" onClick={()=>navigate("/user/profile")}>Create Account</button>
         </form>
       </div>
 

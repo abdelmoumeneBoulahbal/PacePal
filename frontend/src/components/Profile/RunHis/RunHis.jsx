@@ -5,12 +5,17 @@ import './runhis.css';
 
 import runTime from '../../../assets/icons/schedule.png'
 
+import { useNavigate } from 'react-router-dom';
+
 function RunHis() {
+
+  const navigate = useNavigate()
+
   return (
     <div className='rh-container'>
       <div className='rh-top'>
         <div className='rh-top-title'>
-        <img src={runTime} alt="" />
+        <img src={runTime} />
         <h3>Run History</h3>
         </div>
        
@@ -53,7 +58,7 @@ function RunHis() {
           </tbody>
         </table>
         <div className='rh-btn-div'>
-          <button className='rh-btn'>See more</button>
+          <button onClick={() => navigate('history')} className='rh-btn'>See more</button>
         </div>
       </div>
     </div>

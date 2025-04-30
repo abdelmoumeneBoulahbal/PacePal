@@ -9,7 +9,8 @@ import SearchRun from './pages/RunRelated/SearchRun/SearchRun';
 import DetailsRun from './pages/RunRelated/DetailsRun/DetailsRun';
 import OrganizeForm from './pages/Profile/Organizer/OrganizeForm/OrganizeForm';
 import OrgRunPage from './pages/Profile/Organizer/OrganizeRunPage/OrgRunPage';
-
+import RunnerHistoryPage from './pages/Profile/RunHistory/RunnerHistoryPage';
+import Settings from './pages/Profile/Settings/Settings';
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
         <Route path="/user/search" element={<SearchRun />} />
         <Route path="/user/search/details" element={<DetailsRun />} />
         <Route path="/user/organizer/create" element={<OrganizeForm />} />
+        <Route path="/user/profile/history" element={<RunnerHistoryPage />} />
+        <Route path="/user/profile/settings" element={<Settings />} />
 
       </Routes>
     </Router>
