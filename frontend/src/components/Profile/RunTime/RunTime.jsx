@@ -22,7 +22,6 @@ function RunTime() {
           <img src={stopWatch} alt="" />
           <h3>My Total Running Time</h3>
         </div>
-        <button className="rt-button">See More</button>
       </div>
 
       <div className="rt-main">
@@ -35,8 +34,8 @@ function RunTime() {
           <AreaChart data={data}>
             <defs>
               <linearGradient id="colorTime" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#7B61FF" stopOpacity={0.6}/>
-                <stop offset="95%" stopColor="#7B61FF" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#DC3545" stopOpacity={0.6}/>
+                <stop offset="95%" stopColor="#FF4D5E" stopOpacity={0}/>
               </linearGradient>
             </defs>
 
@@ -46,7 +45,7 @@ function RunTime() {
             <Area 
               type="monotone" 
               dataKey="time" 
-              stroke="#7B61FF" 
+              stroke="#B02130" 
               fillOpacity={1} 
               fill="url(#colorTime)" 
               strokeWidth={2}

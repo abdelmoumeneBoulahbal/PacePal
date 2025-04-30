@@ -12,8 +12,7 @@
   --black : #16133a;
   
   /* Text Colors */
-  --text-dark: #ffffff;      
-  --text-light: #f1f1f1;
+  --text-dark: #f1f1f1;
 
 
   --alert-info: #007bff; 
@@ -40,8 +39,6 @@
   box-sizing: border-box;
 }
 
-input, select {
-  font: initial !important; 
-  color: initial !important;
-
+button{
+  color: var(--text-dark) !important;
 }

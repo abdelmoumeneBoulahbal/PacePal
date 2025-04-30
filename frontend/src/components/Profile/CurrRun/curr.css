@@ -37,7 +37,8 @@
 
 .curr-top{
     display: flex;
-    border-bottom: 1px solid #666;
+    border-bottom: 4px solid #ff4d5fe0;
+    border-radius: 20px;
     margin-bottom: 1.5rem;
     margin-top: 1rem;
     padding-bottom: 1rem;
@@ -49,15 +50,16 @@
 }
 .curr-top img{
     width: 42px;
-    margin-left: .1rem;
+    margin-left: .5rem;
     margin-right: .5rem;
 }
 .curr-top h3{
     font-size: 1.3rem;
+    color: var(--primary-dark);
 }
 
 .curr-container:hover{
     transform: scale(1.01);
-    box-shadow: 0px 30px 20px rgba(0, 0, 0, 0.213);
+    box-shadow: 0px 30px 20px #ff4d5f6f;
 
 }

@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 import Footer from '../../../layouts/Footer/Footer.jsx'
 
+import user from '../../../assets/icons/user.png'
+import password from '../../../assets/icons/key (1).png'
 
 import '../Signup/signup.css'
 import './login.css'
@@ -49,7 +51,10 @@ export const Login = () => {
 
 
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username" style={{fontSize:"1.2rem" }}>
+              <img src={user} />
+              Username
+            </label>
             <input 
               type="text" 
               id="username" 
@@ -60,7 +65,10 @@ export const Login = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label style={{fontSize:"1.2rem" }} htmlFor="password">
+              <img src={password} />
+              Password
+            </label>
             <input 
               type="password" 
               id="password" 

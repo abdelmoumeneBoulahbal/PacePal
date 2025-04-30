@@ -1,19 +1,7 @@
 /* RunDetails.css */
 
 :root {
-  --primary-color: #DC3545;
-  --primary-dark: #B02130;
-  --primary-light: #FF4D5E;
-  --magenta: #7F00A9;
-  --alert-info: #007bff;
-  --blue-shade-lighter: #5B9DEA;
-  --blue-shade-light: #0096FF;
-  --orange: #FF6F37;
-  --background-light: #f9fafb;
-  --border-color: #e5e7eb;
-  --text-dark: #1f2937;
-  --text-medium: #4b5563;
-  --text-light: #6b7280;
+
   --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
   --gradient-accent: linear-gradient(135deg, var(--blue-shade-light), var(--blue-shade-lighter));
 }
@@ -27,6 +15,9 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.run-details-container {
+  color: var(--black) !important;
+}
 .back-navigation {
   margin-bottom: 20px;
 }
@@ -37,7 +28,7 @@
   gap: 8px;
   background: none;
   border: none;
-  color: var(--primary-dark);
+  color: var(--primary-dark) !important;
   font-weight: 600;
   cursor: pointer;
   padding: 8px 16px;
@@ -131,7 +122,7 @@
 }
 
 .creator-header h3 {
-  color: white;
+  color: var(--text-dark);
   margin: 0;
   font-size: 18px;
   font-weight: 600;
@@ -168,7 +159,7 @@
   margin: 0 0 4px 0;
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--black);
 }
 
 .username {
@@ -405,7 +396,7 @@
 .participant-name {
   margin: 0 0 2px 0;
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--black);
   font-size: 15px;
 }
 
@@ -510,7 +501,7 @@
   border: 2px solid var(--border-color);
   border-radius: 8px;
   background-color: white;
-  color: var(--text-medium);
+  color: var(--black) !important;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;

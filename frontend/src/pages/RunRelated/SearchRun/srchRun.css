@@ -1,19 +1,8 @@
 /* SearchRun.css */
 
 :root {
-    --primary-color: #DC3545;
-    --primary-dark: #B02130;
-    --primary-light: #FF4D5E;
-    --magenta: #7F00A9;
-    --alert-info: #007bff;
-    --blue-shade-lighter: #5B9DEA;
-    --blue-shade-light: #0096FF;
-    --orange: #FF6F37;
     --background-light: #f9fafb;
     --border-color: #e5e7eb;
-    --text-dark: #1f2937;
-    --text-medium: #4b5563;
-    --text-light: #6b7280;
     --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     --gradient-accent: linear-gradient(135deg, var(--blue-shade-light), var(--blue-shade-lighter));
   }
@@ -27,7 +16,7 @@
   }
   
   /* ===== Side Navigation ===== */
-  .side-nav {
+  .side-nav-search {
     width: 280px;
     background: linear-gradient(to bottom, #ffffff, #f5f5f5);
     height: 100%;
@@ -82,7 +71,7 @@
   .filter-title h3 {
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: var(--black);
     margin: 0;
     transition: color 0.2s ease;
   }
@@ -269,7 +258,7 @@
     padding: 16px 20px;
     border: none;
     font-size: 16px;
-    color: var(--text-dark);
+    color: var(--black);
   }
   
   .search-input::placeholder {
@@ -590,14 +579,14 @@
     font-size: 14px;
     font-weight: 600;
     background-color: white;
-    color: var(--primary-dark);
+  color: var(--primary-color) !important;    
     cursor: pointer;
     transition: all 0.3s ease;
   }
   
   .pagination-btn:hover:not(:disabled) {
     background: var(--gradient-primary);
-    color: white;
+    color: white !important;
     border-color: transparent;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);

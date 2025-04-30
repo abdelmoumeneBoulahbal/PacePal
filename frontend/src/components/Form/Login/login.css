@@ -13,3 +13,10 @@
 .additional-text-login{
     margin-top: 1rem;
 }
+
+.form-group img{
+    height: 24px;
+    width: 24px;
+    margin-right: 5px;
+    background-color: transparent;
+}

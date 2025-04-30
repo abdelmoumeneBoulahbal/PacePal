@@ -8,7 +8,7 @@
     margin: auto;
     align-items: center;
 
-    color: var(--text-dark);
+    color: var(--text-dark) !important;
 
     margin-top: 70px ;
     position: absolute;

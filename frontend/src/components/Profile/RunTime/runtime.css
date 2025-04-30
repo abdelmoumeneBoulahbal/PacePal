@@ -19,6 +19,7 @@
   }
   .rt-top-title h3{
     padding-top: .5rem;
+    color: var(--primary-dark) !important;
   }
   .rt-top img{
     width: 42px;
@@ -64,6 +65,7 @@
   }
   
   .rt-bottom-footer {
+    font-weight: bold;
     display: flex;
     justify-content: space-between;
     font-size: 0.85rem;

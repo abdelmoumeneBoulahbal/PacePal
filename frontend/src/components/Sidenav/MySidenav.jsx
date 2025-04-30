@@ -9,8 +9,10 @@ import HistoryIcon from '@rsuite/icons/History';
 import OffRoundIcon from '@rsuite/icons/OffRound';
 
 import './sdnav.css'
+import { useNavigate } from 'react-router-dom';
 
 function MySidenav() {
+    const navigate = useNavigate()
     const [activeKey, setActiveKey] = useState('1');
     
     return (
@@ -35,7 +37,7 @@ function MySidenav() {
                   Dashboard
                 </Nav.Item>
                 <Nav.Menu eventKey="2" title="Run History" icon={<HistoryIcon />}>
-                  <Nav.Item className='rh-item-sn'>
+                  <Nav.Item onClick={() => navigate('/user/profile/organizer/runCreated')} className='rh-item-sn'>
                     As an Organizer
                   </Nav.Item>
                   <Nav.Item className='rh-item-sn second'>

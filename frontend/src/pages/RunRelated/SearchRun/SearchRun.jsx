@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, User, Calendar, Clock, Users, Activity, Map, ZoomIn } from 'lucide-react';
 import './srchRun.css'; 
 import { useNavigate } from 'react-router-dom';// Import the CSS file
+import { ChevronLeft } from 'lucide-react';
 
 function SearchRun() {
   // State for expandable sections
@@ -124,7 +125,7 @@ function SearchRun() {
   return (
     <div className="search-run-container">
       {/* Side Navigation */}
-      <div className="side-nav">
+      <div className="side-nav-search">
         <div className="filter-header">Filters</div>
         
         {/* Location Filter */}
@@ -322,6 +323,12 @@ function SearchRun() {
         <div className="header-container">
           {/* Search Page Title */}
           <div>
+          <div className="back-navigation">
+            <button onClick={() => navigate('/user/profile')} className="back-button">
+              <ChevronLeft size={20} />
+              <span>Go Back</span>
+            </button>
+          </div>
             <h1 className="page-title">Search Runs</h1>
             <p className="page-subtitle">Find runs that match your preferences and join the community</p>
           </div>
@@ -412,7 +419,7 @@ function SearchRun() {
                     </td>
             
                     <td>
-                      <button className="join-run-btn">
+                      <button onClick={()=> navigate('/user/search/details')} className="join-run-btn">
                         Join Run
                       </button>
                     </td>

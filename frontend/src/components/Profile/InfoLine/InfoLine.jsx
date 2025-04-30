@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './infoLine.css'
+
 export const InfoLine = ({ 
   title, 
   duration, 
@@ -12,7 +14,7 @@ export const InfoLine = ({
 }) => {
   return (
     <tr>
-      <td>{title}</td>
+      <td className='title-table'>{title}</td>
       <td>{duration}</td>
       <td>{difficulty}</td>
       <td>{numberOfParticipants}</td>

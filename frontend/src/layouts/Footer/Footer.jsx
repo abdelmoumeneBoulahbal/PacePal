@@ -23,7 +23,7 @@ function Footer() {
       </div>
       
       <div className='main-logo-text'>
-        <h1>PACEPAL</h1>
+        <h1>PACE <img src={hermesLeg} alt="" /> PAL</h1>
       </div>
       
       <div className='footer-content'>

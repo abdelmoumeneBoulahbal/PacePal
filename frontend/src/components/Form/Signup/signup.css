@@ -8,8 +8,8 @@
     color: var(--black);
     font-family: "Archivo Narrow";
 }
-.signup-container input, option{
-    color: var(--black) !important;
+.signup-container input:active, option{
+    color: var(--text-dark);
 }
 
 .signup-container{
@@ -50,12 +50,13 @@
     flex-direction: row;
     margin: auto;
     gap: 4rem;
-    margin-right: .8rem;
+    margin-right: .7rem;
 }
 .fn-div input{
     margin-top: .5rem;
-    width: 100% !important;
-    font: initial;
+    width: 205px !important;
+
+    color: var(--black) !important;
     font-family: "Archivo Narrow";
 
 }

@@ -4,7 +4,7 @@
     align-items: baseline;
     justify-content: space-between;
     padding-right: 2rem;
-    border-bottom: 3px solid #5555551b;
+    border-bottom: 3px solid #ff4d5f1a;
     padding-bottom: 1rem;
     margin-bottom: 2rem;
     margin-top: 2rem;
@@ -14,13 +14,14 @@
 }
 .prf-tn-top h2{
     font-size: 2.2rem;
+    color: var(--primary-dark);
 }
 .far-prf-btn{
     width: 180px;
     padding: .7rem;
     font-size: 1.5rem;
     font-family: 'Bebas Neue';
-    background-color: var(--blue-shade-dark);
+    background-color: var(--primary-color);
     color: var(--text-dark);
     font-weight: lighter;
     border-radius: 20px;
@@ -28,7 +29,7 @@
     transition: all 0.5s ease;
 }
 .far-prf-btn:hover{
-    background-color: var(--blue-shade-lighter);
+    background-color: var(--primary-light);
 }
 .far-prf-btn:active{
     transform: scale(0.9);

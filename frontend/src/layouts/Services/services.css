@@ -1,5 +1,5 @@
 .srv-section{
-    margin-bottom: 30rem;
+    margin-bottom: 40rem;
     height: 100vh;
     width: 100%;
 }
@@ -7,7 +7,6 @@
     display: flex;
     margin: auto;
     justify-content: center;
-    border-bottom: 3px solid var(--black);
 
 }
 .srv-right, .srv-left{
@@ -35,13 +34,13 @@
     font-family: "Birthstone Bounce";
 }
 .srv-left-t2{
-    color: var(--magenta);
+    color: var(--magenta-lighter) !important;
     font-family: "Speed rush";
     font-weight: lighter;
     font-size: 6rem;
     text-align: center;
     line-height: 4.1rem;
-    margin-top: -3rem;
+    margin-top: -1rem;
 
 }
 .srv-right{
