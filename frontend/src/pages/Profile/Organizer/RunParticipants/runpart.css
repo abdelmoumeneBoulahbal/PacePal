@@ -1,0 +1,174 @@
+/* Additional CSS for Participants Management Page */
+
+/* Run capacity indicator */
+.run-capacity-wrapper {
+    background-color: white;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    min-width: 240px;
+  }
+  
+  .run-capacity-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .capacity-label {
+    font-weight: 600;
+    color: var(--text-medium);
+  }
+  
+  .capacity-count {
+    font-weight: 700;
+    color: var(--primary-dark);
+  }
+  
+  .capacity-bar {
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .capacity-progress {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  
+  /* Participant cell styling */
+  .participant-cell {
+    min-width: 240px;
+  }
+  
+  .participant-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .participant-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-light);
+  }
+  
+  .participant-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .participant-name {
+    font-weight: 600;
+    color: var(--primary-dark);
+    font-size: 15px;
+  }
+  
+  .participant-subinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .participant-username {
+    font-size: 12px;
+    color: var(--text-medium);
+  }
+  
+  .participant-email {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  
+  /* Status badges */
+  .status-badge.pending {
+    background: linear-gradient(135deg, var(--orange), #FF5722);
+  }
+  
+  .status-badge.accepted {
+    background: linear-gradient(135deg, #10B981, #059669);
+  }
+  
+  .status-badge.rejected {
+    background: linear-gradient(135deg, #9CA3AF, #6B7280);
+  }
+  
+  /* Action buttons */
+  .accept-btn, .reject-btn, .view-profile-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+  
+  .accept-btn {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+  }
+  
+  .reject-btn {
+    background: linear-gradient(135deg, #F43F5E, #E11D48);
+    color: white;
+    box-shadow: 0 2px 6px rgba(225, 29, 72, 0.3);
+  }
+  
+  .view-profile-btn {
+    background: var(--gradient-accent);
+    color: white;
+    box-shadow: 0 2px 6px rgba(91, 157, 234, 0.3);
+  }
+  
+  .accept-btn:hover, .reject-btn:hover, .view-profile-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Sort indicators */
+  .sort-indicator {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  
+  /* Make table headers more obviously clickable */
+  .results-table th {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .results-table th:hover {
+    background-color: rgba(220, 53, 69, 0.05);
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 1200px) {
+    .run-stats-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    
+    .run-capacity-wrapper {
+      width: 100%;
+    }
+    
+    .results-table .participant-subinfo {
+      flex-direction: column;
+    }
+  }
