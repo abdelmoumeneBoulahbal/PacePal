@@ -3,6 +3,7 @@ import { signup } from "./signup.js";
 
 
 const createUser = async (req, res) => {
+  console.log(req.body)
     try {
         const newUser = await signup(req.body);
         res.status(201).json(newUser);

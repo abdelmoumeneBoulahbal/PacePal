@@ -11,14 +11,10 @@ const pool = new Pool({
   });
 
 const signup = async (userData) => {
-  const { firstName, lastName, email, username, password, confirmPassword, dateOfBirth, gender } = userData;
+  const { firstName, lastName, email, username, password, phone, dateOfBirth, gender } = userData;
 
   if (!/^[A-Za-z]+$/.test(firstName) || !/^[A-Za-z]+$/.test(lastName)) {
     throw new Error('Names must contain only letters');
-  }
-
-  if (password !== confirmPassword) {
-    throw new Error('Passwords do not match');
   }
 
   const hashedPassword = await hash(password, 12)
@@ -58,11 +54,16 @@ const signup = async (userData) => {
         throw new Error('Username already taken');
     }
 
+    const phoneCheck = await pool.query('SELECT 1 FROM users WHERE phone = $1', [phone]);
+    if (phoneCheck.rows.length > 0) {
+        throw new Error('Phone number already registered');
+    }
+    
     const result = await pool.query(
         `INSERT INTO users (
           user_id, first_name, last_name, email, username, 
-          password, birth_date, gender
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+          password, birth_date, gender, phone
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING user_id, username, email`,
           [
             userId,
@@ -72,7 +73,8 @@ const signup = async (userData) => {
             username,
             hashedPassword,
             dateOfBirth,
-            gender
+            gender,
+            phone
           ]
         );
 
