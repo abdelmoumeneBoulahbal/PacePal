@@ -1,5 +1,6 @@
 import { loginUser } from "./login.js";
 import { signup } from "./signup.js";
+import { getUserData } from "./getUserData.js";
 
 
 const createUser = async (req, res) => {
@@ -21,7 +22,24 @@ const logUser = async (req, res) => {
     }
 }
 
+const getUserProfile = async (req,res) => {
+  const { id } = req.params;
+
+  try{
+    const user = await getUserData(id)
+
+    if(!user){
+      return res.status(404).json( {error: "User not found"} )
+    }
+    res.status(200).json(user)
+  }catch(error){
+    console.error('Controller error: ', error)
+    res.status(500).json({ error: 'INternal server error' })
+  }
+}
+
 export {
     createUser,
+    getUserProfile,
     logUser
 }

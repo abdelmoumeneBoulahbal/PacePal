@@ -11,7 +11,7 @@ import OffRoundIcon from '@rsuite/icons/OffRound';
 import './sdnav.css'
 import { useNavigate } from 'react-router-dom';
 
-function MySidenav() {
+function MySidenav({ userData }) {
     const navigate = useNavigate()
     const [activeKey, setActiveKey] = useState('1');
     
@@ -24,7 +24,7 @@ function MySidenav() {
                   
                 </div>
                 <div className='un-div'>
-                  <h3>Username</h3>
+                  <h3> {userData.username} </h3>
                   <h4>title</h4>
                 </div>
             </div>

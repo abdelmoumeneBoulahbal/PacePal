@@ -3,7 +3,8 @@ const router = express.Router()
 import { 
     
     createUser,
-    logUser
+    logUser,
+    getUserProfile,
 
  } from '../config/user/userController.js'
 
@@ -14,6 +15,7 @@ router.post('/signup', createUser)
 router.post('/login', logUser)
 router.post('/signup/admin', createAdmin)
 router.post('/login/admin', logAdmin)
+router.get('/users/profile/:id', getUserProfile)
 
 
 export default router

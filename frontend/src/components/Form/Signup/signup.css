@@ -8,7 +8,7 @@
     color: var(--black);
     font-family: "Archivo Narrow";
 }
-.signup-container input:active, option{
+.signup-container input:active{
     color: var(--text-dark) !important;
 }
 

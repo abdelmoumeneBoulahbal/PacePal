@@ -20,9 +20,11 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/auth/signup" element={<Auth />} />
         <Route path="/auth/login" element={<Auth />} />
-        <Route path="/user/profile" element={<Profile />} />
+
+        <Route path="/users/profile/:id" element={<Profile />} />
         <Route path="/user/profile/organizer/runCreated" element={<OrgRunPage />} />
         <Route path="/user/profile/organizer/runCreated/details" element={<RunParticipants />} />
+        
         <Route path="/user/search" element={<SearchRun />} />
         <Route path="/user/search/details" element={<DetailsRun />} />
         <Route path="/user/organizer/create" element={<OrganizeForm />} />

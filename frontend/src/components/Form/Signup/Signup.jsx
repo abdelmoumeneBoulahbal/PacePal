@@ -58,8 +58,7 @@ export const Signup = () => {
         // Success case
         setShowModal(true);
         setTimeout(() => {
-          localStorage.setItem('userId', data.user_id);
-          navigate("/user/profile");
+          navigate(`/users/profile/${data.user_id}`);
         }, 5000);
       } else {
         // Just display the error message from the backend
@@ -191,9 +190,9 @@ export const Signup = () => {
               value={formData.gender}
               onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
             >
-              <option style={{color: '#16133a'}} value="">Select Gender</option>
-              <option style={{color: '#16133a'}} value="male">Male</option>
-              <option style={{color: '#16133a'}} value="female">Female</option>
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
             </select>
           </div>
         </div>
