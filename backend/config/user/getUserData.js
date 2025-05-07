@@ -9,7 +9,8 @@ const pool = new Pool({
 export const getUserData = async (userId) => {
     try {
         const result = await pool.query(
-          `SELECT  
+          `SELECT
+            user_id,
             first_name, 
             last_name, 
             email, 

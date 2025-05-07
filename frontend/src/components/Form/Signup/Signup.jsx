@@ -17,28 +17,11 @@ export const Signup = () => {
     dateOfBirth: '',
     gender: '',
   });
-
-  const colorPalette = [
-    ' #B02130 ', 
-    ' #007bff ', 
-    ' #30B8AB ', 
-    ' #7F00A9 ', 
-  ];
   
-  const [currentColorIndex, setCurrentColorIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');  // Simplified error state
 
-  const handleHover = () => {
-    // Cycle to the next color in the palette
-    const nextIndex = (currentColorIndex + 1) % colorPalette.length;
-    setCurrentColorIndex(nextIndex);
-    
-    // Update CSS variable
-    document.documentElement.style.setProperty('--hover-color', colorPalette[nextIndex]);
-  };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(''); // Clear previous error
@@ -55,18 +38,20 @@ export const Signup = () => {
       const data = await response.json();
   
       if (response.ok) {
-        // Success case
+
         setShowModal(true);
         setTimeout(() => {
           navigate(`/users/profile/${data.user_id}`);
-        }, 5000);
+        }, 3000);
       } else {
-        // Just display the error message from the backend
+
         setErrorMessage(data.error || "An error occurred during signup");
       }
     } catch (error) {
+
       console.error('Signup error:', error);
       setErrorMessage("Connection error: Couldn't reach the server");
+      
     }
   };
 
@@ -209,8 +194,6 @@ export const Signup = () => {
         </div>
 
         <button
-          onMouseEnter={handleHover}
-          style={{ '--hover-color': colorPalette[currentColorIndex] }}
           type="submit" 
           className="submit-btn"
         >

@@ -9,13 +9,17 @@ import {
  } from '../config/user/userController.js'
 
 import { createAdmin, logAdmin } from '../config/admin/adminController.js'
+import { createRunController } from '../config/organizer/runController.js'
 
 
 router.post('/signup', createUser)
 router.post('/login', logUser)
+
 router.post('/signup/admin', createAdmin)
 router.post('/login/admin', logAdmin)
+
 router.get('/users/profile/:id', getUserProfile)
 
+router.post('/runs/createRun/:userId', createRunController)
 
 export default router

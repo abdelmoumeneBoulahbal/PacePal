@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import { Sidenav, Nav, Toggle } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
@@ -9,9 +10,10 @@ import HistoryIcon from '@rsuite/icons/History';
 import OffRoundIcon from '@rsuite/icons/OffRound';
 
 import './sdnav.css'
-import { useNavigate } from 'react-router-dom';
 
 function MySidenav({ userData }) {
+
+
     const navigate = useNavigate()
     const [activeKey, setActiveKey] = useState('1');
     
@@ -37,7 +39,9 @@ function MySidenav({ userData }) {
                   Dashboard
                 </Nav.Item>
                 <Nav.Menu eventKey="2" title="History" icon={<HistoryIcon />}>
-                  <Nav.Item onClick={() => navigate('/user/profile/organizer/runCreated')} className='rh-item-sn'>
+                  <Nav.Item   onClick={() => navigate('/user/profile/organizer/runCreated', 
+                              { state: { userId: userData.user_id } })} 
+                              className='rh-item-sn'>
                     As an Organizer
                   </Nav.Item>
                   <Nav.Item onClick={() => navigate('history')} className='rh-item-sn second'>

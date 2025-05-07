@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import './orgRunPag.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 
 function OrgRunPage() {
   const navigate = useNavigate()
+
+  const location = useLocation()
+  const userId = location.state?.userId
+
+  console.log(userId)
 
   const [expandedFilters, setExpandedFilters] = useState({
     status: true,
@@ -212,7 +217,12 @@ function OrgRunPage() {
             <h1 className="page-title">My Created Runs</h1>
             <p className="page-subtitle">Track and manage all the running events you've organized</p>
           </div>
-          <button onClick={() => navigate('/user/organizer/create')} className="create-run-btn">
+          <button 
+                onClick={() => navigate('/user/organizer/create/', 
+                {state: { userId: userId }}
+
+                )} 
+                className="create-run-btn">
             <span>Create New Run</span>
             <svg className="plus-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>

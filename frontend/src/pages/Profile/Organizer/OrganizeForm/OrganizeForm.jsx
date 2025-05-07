@@ -1,11 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./orgForm.css";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import SuccessModal from '../../../../components/SuccessModal/SuccessModal';
 
 function OrganizeForm() {
+  const [showModal, setShowModal] = useState(false);
+  
+  const navigate = useNavigate();
+  
+  const location = useLocation();
+  const userId = location.state?.userId;
 
-  const navigate = useNavigate()
+  useEffect(() => {
+    if (!userId) {
+      console.error('User ID is missing. Redirecting to login...');
+      // Redirect to login or display error
+      // navigate('/login'); // Uncomment if you have a login route
+    }
+  }, [userId, navigate]);
+
+  const runTypes = [
+    { name: "Recovery Run", distances: ["2000m", "3000m", "5000m"] },
+    { name: "Tempo Run", distances: ["3000m", "5000m", "10km"] },
+    { name: "Long Run", distances: ["10km", "15km", "21km", "30km"] },
+    { name: "Interval Training", distances: ["400m", "800m", "1000m"] },
+    { name: "Hill Repeats", distances: ["3000m", "5000m", "7000m"] },
+    { name: "Fartlek", distances: ["5000m", "8000m", "10km"] },
+    { name: "Easy Run", distances: ["3000m", "5000m", "7000m"] },
+    { name: "Trail Run", distances: ["5000m", "10km", "15km", "21km"] },
+    { name: "Race Pace", distances: ["5000m", "10km", "21km", "42km"] }, // Marathon = 42km
+    { name: "Cross Country", distances: ["5000m", "8000m", "10km"] }
+  ];
 
   const [formData, setFormData] = useState({
     runTitle: '',
@@ -15,6 +41,8 @@ function OrganizeForm() {
     description: '',
     ageRange: '',
     difficulty: '',
+    runType: '',
+    distance: '',
     duration: '',
     location: '',
     additionalLocationInfo: '',
@@ -40,18 +68,82 @@ function OrganizeForm() {
       ...prevState,
       [name]: value
     }));
+
+    if (name === 'runType') {
+      setFormData(prevState => ({
+        ...prevState,
+        distance: ''
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    // You can now send `formData` to your backend
+
+    if (!userId) {
+      console.error('Error: User ID is missing');
+      alert('User ID is missing. Please log in again.');
+      return; 
+    }
+
+    try {
+
+      const dataToSend = {
+        ...formData,
+        maxUsers: formData.maxUsers ? parseInt(formData.maxUsers, 10) : null,
+        averageSpeed: formData.averageSpeed ? parseFloat(formData.averageSpeed) : null
+      };
+
+      console.log('Sending data:', dataToSend);
+      console.log('To endpoint:', `http://localhost:3000/runs/createRun/${userId}`);
+
+      const response = await fetch(`http://localhost:3000/runs/createRun/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+        credentials: 'include'
+      });
+      
+      const responseText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (err) {
+        console.error('Failed to parse response as JSON:', responseText);
+        throw new Error('Invalid response format from server');
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to create run');
+      }
+      
+      console.log('Run created successfully:', data);
+      setShowModal(true);
+      
+      setTimeout(() => {
+        navigate('/user/profile/organizer/runCreated', {
+          state: { userId: userId }
+        });
+      }, 2500);
+
+    } catch (error) {
+      console.error('Error creating run:', error);
+      alert(`Failed to create run: ${error.message}`);
+    }
+  };
+  
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   return (
     <div className="org-form-page">
       <div className="back-navigation">
-        <button onClick={() => navigate('/user/profile/organizer/runCreated')} className="back-button">
+        <button onClick={() => navigate('/user/profile/organizer/runCreated', { 
+          state: { userId: userId }
+        })} className="back-button">
           <ChevronLeft size={20} />
           <span>Go Back</span>
         </button>
@@ -171,6 +263,51 @@ function OrganizeForm() {
             </div>
           </div>
           
+          {/* Improved Run Type Selection */}
+          <div className="org-form-row">
+            <div className="org-form-field">
+              <label className="org-form-label" htmlFor="runType">Run Type</label>
+              <select 
+                id="runType"
+                name="runType" 
+                value={formData.runType} 
+                onChange={handleChange} 
+                required 
+                className="org-form-select"
+              >
+                <option value="">Select Run Type</option>
+                {runTypes.map((type, idx) => (
+                  <option key={idx} value={type.name}>{type.name}</option>
+                ))}
+              </select>
+            </div>
+            
+            {/* Improved Distance Selection */}
+            <div className="org-form-field">
+            <label className="org-form-label" htmlFor="distance">Distance</label>
+            <select
+              id="distance"
+              name="distance"
+              value={formData.distance}
+              onChange={handleChange}
+              required
+              disabled={!formData.runType}
+              className="org-form-select"
+            >
+              <option value="">Select Distance</option>
+              {formData.runType && 
+                runTypes
+                  .find(type => type.name === formData.runType)
+                  ?.distances.map((distance, idx) => (
+                    <option key={idx} value={distance}>
+                      {distance}
+                    </option>
+                  ))
+              }
+            </select>
+          </div>
+          </div>
+
           <div className="org-form-field">
             <label className="org-form-label" htmlFor="duration">Duration</label>
             <select 
@@ -182,11 +319,13 @@ function OrganizeForm() {
               className="org-form-select"
             >
               <option value="">Select Duration</option>
-              {durations.map((duration, idx) => <option key={idx} value={duration}>{duration}</option>)}
+              {durations.map((duration, idx) => (
+                <option key={idx} value={duration}>{duration}</option>
+              ))}
             </select>
           </div>
         </div>
-
+        
         <div className="org-form-section">
           <h2 className="org-section-title">Location & Participants</h2>
           
@@ -222,12 +361,14 @@ function OrganizeForm() {
             <div className="org-form-field">
               <label className="org-form-label" htmlFor="averageSpeed">Average Speed (km/h)</label>
               <input 
-                type="text" 
+                type="number" 
                 id="averageSpeed"
                 name="averageSpeed" 
                 placeholder="Expected pace" 
                 value={formData.averageSpeed} 
                 onChange={handleChange}
+                step="0.1"
+                min="0"
                 className="org-form-input"
               />
             </div>
@@ -240,6 +381,7 @@ function OrganizeForm() {
                 placeholder="Leave empty for unlimited" 
                 value={formData.maxUsers} 
                 onChange={handleChange}
+                min="0"
                 className="org-form-input"
               />
             </div>
@@ -278,6 +420,12 @@ function OrganizeForm() {
           <button type="submit" className="org-submit-btn">Create Run</button>
         </div>
       </form>
+      {showModal && (
+        <SuccessModal 
+          message="Run Created Successfully! Redirecting Now..." 
+          onClose={closeModal} 
+        />
+      )}
     </div>
   );
 }
