@@ -1,4 +1,4 @@
-/* orgRunPage.css */
+/* orgRunPge.css */
 
 :root {
     --background-light: #f9fafb;
@@ -7,9 +7,6 @@
     --gradient-accent: linear-gradient(135deg, var(--blue-shade-light), var(--blue-shade-lighter));
     --text-medium: #4b5563;
     --text-light: #6b7280;
-    --black: #111827;
-    --orange: #ff9800;
-    --magenta: #d53f8c;
   }
   
   /* ===== General Layout ===== */
@@ -502,6 +499,8 @@
   
   .info-with-icon {
     display: flex;
+    justify-content: center;
+    font-weight: bold;
     align-items: center;
     gap: 8px;
   }
@@ -604,7 +603,8 @@
   /* Table action buttons */
   .action-buttons {
     display: flex;
-    gap: 10px;
+    margin: auto;
+    justify-content: center;
   }
   
   .view-details-btn, .edit-run-btn, .delete-run-btn {
@@ -777,14 +777,43 @@
   }
   
   @media (max-width: 576px) {
-    .action-buttons {
-      flex-direction: column;
-      gap: 8px;
-    }
-    
     .pagination-container {
       flex-direction: column;
       gap: 16px;
       align-items: flex-start;
     }
+  }
+
+  .action-buttons button{
+    font-size: .7rem;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    transition: all .2s ease;
+    box-shadow: 0px 10px 10px transparent;
+
+  }
+  .action-buttons button:hover{
+    box-shadow: 0px 10px 10px #ff4d5f93;
+    transform: translateY(-2px);
+  }
+  .action-buttons button:active{
+    transform: scale(0.95);
+  }
+
+  .runTy-div{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .runTy-div img{
+    width: 28px;
+
+  }
+
+  .run_type{
+    font-weight: bold;
   }

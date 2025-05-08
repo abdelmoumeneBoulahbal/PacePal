@@ -12,6 +12,8 @@ function OrganizeForm() {
   const location = useLocation();
   const userId = location.state?.userId;
 
+  console.log('User id from the Create Run Page : ', userId)
+
   useEffect(() => {
     if (!userId) {
       console.error('User ID is missing. Redirecting to login...');

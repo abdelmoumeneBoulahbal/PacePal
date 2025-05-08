@@ -3,6 +3,10 @@ import './orgRunPag.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 
+/* icons */
+import recovery  from "../../../../assets/icons/medical.png"
+
+
 function OrgRunPage() {
   const navigate = useNavigate()
 
@@ -35,7 +39,8 @@ function OrgRunPage() {
       difficulty: "Easy",
       date: "April 30, 2025",
       participants: 12,
-      zone: "Zone 1",
+      runType: 'Recovery Run',
+      icon: recovery
     },
     {
       id: 2,
@@ -45,7 +50,8 @@ function OrgRunPage() {
       difficulty: "Challenging",
       date: "April 15, 2025",
       participants: 24,
-      zone: "Zone 3",
+      runType: 'Recovery Run'
+
     },
     {
       id: 3,
@@ -55,7 +61,8 @@ function OrgRunPage() {
       difficulty: "Difficult",
       date: "May 5, 2025",
       participants: 8,
-      zone: "Zone 2",
+      runType: 'Tempo Run'
+
     },
     {
       id: 4,
@@ -65,7 +72,8 @@ function OrgRunPage() {
       difficulty: "Medium",
       date: "April 10, 2025",
       participants: 15,
-      zone: "Zone 2",
+      runType: 'Easy Run'
+
     },
     {
       id: 5,
@@ -75,7 +83,7 @@ function OrgRunPage() {
       difficulty: "Expert",
       date: "May 15, 2025",
       participants: 6,
-      zone: "Zone 3",
+      runType: 'Race Pace'
     }
   ];
 
@@ -178,7 +186,7 @@ function OrgRunPage() {
         {/* Zone Filter */}
         <div className="filter-section">
           <div className="filter-title" onClick={() => toggleFilter('zone')}>
-            <h3>Zone</h3>
+            <h3>Run Type</h3>
             <svg className={`chevron-icon ${expandedFilters.zone ? 'rotate' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -188,15 +196,15 @@ function OrgRunPage() {
               <div className="filter-list">
                 <div className="filter-item">
                   <input type="checkbox" id="zone-1" />
-                  <label htmlFor="zone-1">Zone 1</label>
+                  <label htmlFor="zone-1">Recovery Run</label>
                 </div>
                 <div className="filter-item">
                   <input type="checkbox" id="zone-2" />
-                  <label htmlFor="zone-2">Zone 2</label>
+                  <label htmlFor="zone-2">Race Pace</label>
                 </div>
                 <div className="filter-item">
                   <input type="checkbox" id="zone-3" />
-                  <label htmlFor="zone-3">Zone 3</label>
+                  <label htmlFor="zone-3">Trail Run</label>
                 </div>
               </div>
             </div>
@@ -311,8 +319,8 @@ function OrgRunPage() {
                   <th>Difficulty</th>
                   <th>Date</th>
                   <th>Participants</th>
-                  <th>Zone</th>
-                  <th>Actions</th>
+                  <th>Run Type</th>
+                  <th>Full Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -359,27 +367,15 @@ function OrgRunPage() {
                       </div>
                     </td>
                     <td>
-                      <span className={`zone-badge zone-${run.zone.split(' ')[1]}`}>{run.zone}</span>
+                      <div className='runTy-div'>
+                        <img src={run.icon} alt="" />
+                        <span className="run_type">{run.runType}</span>
+                      </div>
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <button onClick={()=>navigate('details')} className="view-details-btn">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                        </button>
-                        <button className="edit-run-btn">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                          </svg>
-                        </button>
-                        <button className="delete-run-btn">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                          </svg>
+                        <button>
+                          Full Details
                         </button>
                       </div>
                     </td>
@@ -396,8 +392,8 @@ function OrgRunPage() {
             Showing <span className="pagination-bold">1-5</span> of <span className="pagination-bold">5</span> runs
           </div>
           <div className="pagination-controls">
-            <button className="pagination-btn" disabled>Previous</button>
-            <button className="pagination-btn" disabled>Next</button>
+            <button className="pagination-btn">Previous</button>
+            <button className="pagination-btn">Next</button>
           </div>
         </div>
       </div>

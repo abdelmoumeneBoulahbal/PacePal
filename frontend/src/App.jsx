@@ -23,8 +23,8 @@ function App() {
 
         <Route path="/users/profile/:id" element={<Profile />} />
 
-        <Route path="/user/profile/organizer/runCreated" element={<OrgRunPage />} />
         <Route path="/user/organizer/create" element={<OrganizeForm />} />
+        <Route path="/user/profile/organizer/runCreated" element={<OrgRunPage />} />
         
         <Route path="/user/profile/organizer/runCreated/details" element={<RunParticipants />} />
         
