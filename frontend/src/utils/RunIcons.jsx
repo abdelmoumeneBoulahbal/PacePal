@@ -10,8 +10,6 @@ import trailRunIcon from '../assets/icons/trail.png';
 import racePaceIcon from '../assets/icons/marathon.png';
 import crossCountryIcon from '../assets/icons/route.png';
 
-import defaultIcon from '';
-
 const runTypeIcons = {
   'Recovery Run': recoveryIcon,
   'Tempo Run': tempoIcon,
@@ -27,18 +25,10 @@ const runTypeIcons = {
 
 
 export const getRunIcon = (runType) => {
-    const validRunType = isValidRunType(runType)
-    return runTypeIcons[validRunType] || defaultIcon;
-};
-
-export const getAllRunTypes = () => {
-  return Object.entries(runTypeIcons).map(([name, icon]) => ({
-    name,
-    icon
-  }));
-};
-
-
-export const isValidRunType = (runType) => {
-  return runType in runTypeIcons;
+  // Case-insensitive matching and fallback
+  const normalizedRunType = Object.keys(runTypeIcons).find(
+    key => key.toLowerCase() === (runType || '').toLowerCase()
+  );
+  
+  return runTypeIcons[normalizedRunType];
 };

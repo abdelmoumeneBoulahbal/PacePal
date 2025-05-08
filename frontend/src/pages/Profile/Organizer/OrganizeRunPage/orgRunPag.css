@@ -506,7 +506,7 @@
   }
   
   .info-icon {
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
     flex-shrink: 0;
   }
   
