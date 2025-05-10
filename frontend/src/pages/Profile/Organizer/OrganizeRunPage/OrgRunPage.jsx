@@ -52,6 +52,7 @@ function OrgRunPage() {
         }
         
         const data = await response.json();
+
         
         if (data.success) {
           const formattedRuns = data.runs.map(run => ({
@@ -70,9 +71,15 @@ function OrgRunPage() {
             icon: getRunIcon(run.run_type)
           }));
           
+
+          
           setRuns(formattedRuns);
           setTotalRuns(formattedRuns.length);
           
+          formattedRuns.forEach(runs => {
+            console.log(runs.id)
+          });
+
           // Calculate stats
           const newStats = {
             active: formattedRuns.filter(run => run.status.toLowerCase() === 'active').length,
@@ -81,6 +88,7 @@ function OrgRunPage() {
             totalParticipants: formattedRuns.reduce((total, run) => total + (run.participants || 0), 0)
           };
           console.log(formattedRuns.icon)
+
           setStats(newStats);
         } else {
           throw new Error(data.error || 'Failed to fetch runs');
@@ -260,7 +268,7 @@ function OrgRunPage() {
             <p className="page-subtitle">Track and manage all the running events you've organized</p>
           </div>
           <button 
-            onClick={() => navigate('/runs/create', { state: { userId } })} 
+            onClick={() => navigate('/user/organizer/create', { state: { userId } })} 
             className="create-run-btn"
           >
             <span>Create New Run</span>
@@ -418,7 +426,7 @@ function OrgRunPage() {
                       <td>
                         <div className="action-buttons">
                           <button 
-                            onClick={() => navigate(`/runs/${run.id}`, { state: { run } })}
+                            onClick={() => navigate(`details/${run.id}`, { state: { run } })}
                             className="details-btn"
                           >
                             View Details

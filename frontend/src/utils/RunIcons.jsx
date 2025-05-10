@@ -1,12 +1,12 @@
 
 import recoveryIcon from '../assets/icons/medical.png';
-import tempoIcon from '../assets/icons/running_17463605 (1).png';
+import tempoIcon from '../assets/icons/timer (1).png';
 import longRunIcon from '../assets/icons/long-term.png';
 import intervalIcon from '../assets/icons/timer.png';
 import hillRepeatsIcon from '../assets/icons/hiking_18976183.png';
 import fartlekIcon from '../assets/icons/speedometer.png';
 import easyRunIcon from '../assets/icons/running-shoes.png';
-import trailRunIcon from '../assets/icons/trail.png';
+import trailRunIcon from '../assets/icons/trail (1).png';
 import racePaceIcon from '../assets/icons/marathon.png';
 import crossCountryIcon from '../assets/icons/route.png';
 

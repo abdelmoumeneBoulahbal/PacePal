@@ -1,5 +1,7 @@
+import { getRunDetails } from "../runDetails/getRunDetails.js";
 import { createRun } from "./createRun.js";
-import { getRunList } from "./getRunList.js";
+import { getCreatedRunsList } from "./getRunList.js";
+import { getRunParticipants } from "../runDetails/getRunParticipants.js";
 
 const createRunController = async(req, res) => {
     const {userId} = req.params
@@ -13,11 +15,11 @@ const createRunController = async(req, res) => {
     }
 }
 
-const getRunController = async (req, res) => {
+const getCreatedRunsController = async (req, res) => {
     const { userId } = req.params;
 
     try {
-        const result = await getRunList(userId);
+        const result = await getCreatedRunsList(userId);
         
         if (!result.success) {
             return res.status(400).json({ 
@@ -42,6 +44,67 @@ const getRunController = async (req, res) => {
     }
 };
 
+const getCreatedRunDetails = async (req, res) => {
+    const { runId } = req.params;
+
+    try {
+        const result = await getRunDetails(runId);
+        
+        if (!result.success) {
+            return res.status(400).json({ 
+                error: result.error,
+                ...(result.details && { details: result.details })
+            });
+        }
+
+        res.status(200).json(result);
+
+    } catch (error) {
+        console.error('Controller error:', error);
+        res.status(500).json({ 
+            error: 'Internal server error',
+            ...(process.env.NODE_ENV === 'development' && { 
+                details: error.message 
+            })
+        });
+    }
+};
+
+const getRunParticipantsController = async (req, res) => {
+  const { runId } = req.params;
+
+  try {
+    const result = await getRunParticipants(runId);
+
+    if (!result.success) {
+      return res.status(result.statusCode || 500).json({
+        success: false,
+        error: result.error,
+        ...(result.details && { details: result.details })
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      count: result.participants.length,
+      participants: result.participants
+    });
+
+  } catch (error) {
+    console.error('Controller error:', error);
+    res.status(500).json({ 
+      success: false,
+      error: 'Internal server error',
+      ...(process.env.NODE_ENV === 'development' && { 
+        details: error.message 
+      })
+    });
+  }
+};
+
+
 export { createRunController,
-         getRunController,
-       }
+         getCreatedRunsController,
+         getCreatedRunDetails,
+         getRunParticipantsController 
+        }

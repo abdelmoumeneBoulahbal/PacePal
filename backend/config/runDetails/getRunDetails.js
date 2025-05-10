@@ -1,6 +1,5 @@
 import pg from 'pg';
 const { Pool } = pg;
-import { v4 as uuidv4 } from 'uuid';  // For UUIDv4 (random)
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -10,38 +9,44 @@ const pool = new Pool({
   });
 
 
-const getCreatedRunsList = async (userId) => {
+const getRunDetails = async (runId) => {
 
-    const creatorId = userId;
+    const run_id = runId
 
     try{
         
         const query = `
         SELECT
-            
-            run_id,
 
             track_name,
             run_title,
-
-            nmb_participants, 
-            difficulty,
-            
+            max_people,
+            age_range,
+            description,
+            start_time,
+            gender,
+            nmb_participants,
+            created_at,
             run_type,
-            date,            
-            
+            date,
+            difficulty,
+            duration,
+            distance,
+            location,
+            google_maps_link,
+            additional_location_info,
+            average_speed,
             status
 
         FROM runs
-        WHERE creator_id = $1 AND is_creator = TRUE
-        ORDER BY created_at DESC`; 
+        WHERE run_id = $1 `; 
         
 
-        const result = await pool.query(query, [creatorId])
+        const result = await pool.query(query, [run_id])
 
         return {
             success: true,
-            runs: result.rows
+            run: result.rows
           };
 
 
@@ -57,4 +62,4 @@ const getCreatedRunsList = async (userId) => {
 
 }
 
-export { getCreatedRunsList }
+export { getRunDetails }

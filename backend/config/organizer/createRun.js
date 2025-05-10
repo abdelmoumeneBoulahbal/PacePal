@@ -27,7 +27,8 @@ const pool = new Pool({
         averageSpeed,
         maxUsers,
         gender,
-        googleMapsLink       
+        googleMapsLink,
+        is_creator      
     } = runData;
 
     // Validations
@@ -64,8 +65,9 @@ const pool = new Pool({
                 location,
                 google_maps_link,
                 additional_location_info,
-                average_speed
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+                average_speed,
+                is_creator
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
             RETURNING run_id`;
 
         const values = [
@@ -86,7 +88,8 @@ const pool = new Pool({
             location,
             googleMapsLink,
             additionalLocationInfo,
-            averageSpeed
+            averageSpeed,
+            is_creator
         ];
 
         const result = await pool.query(query, values);

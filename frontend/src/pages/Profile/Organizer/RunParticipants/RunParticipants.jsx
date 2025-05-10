@@ -1,41 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Search, UserCheck, UserX, Filter, ArrowUpDown } from 'lucide-react';
-import './runpart.css'
+import './runpart.css';
+import DetailsOrg from './DetailsOrg.jsx/DetailsOrg';
 
 function RunParticipants() {
   const navigate = useNavigate();
   const { runId } = useParams();
   
-  // State for filter expansion
-  const [expandedFilters, setExpandedFilters] = useState({
-    status: true,
-    age: true,
-    joinDate: true,
-    completedRuns: true
-  });
+
+  const [runDetails, setRunDetails] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   // State for sort
   const [sortConfig, setSortConfig] = useState({
-    key: 'name',
+    key: 'firstName',
     direction: 'ascending'
   });
 
-  // State for search
   const [searchQuery, setSearchQuery] = useState('');
 
-  // State for view
-  const [viewMode, setViewMode] = useState('all'); // 'all', 'pending', 'accepted', 'rejected'
+  const [viewMode, setViewMode] = useState('all');
 
-  // Toggle filter sections
-  const toggleFilter = (filter) => {
-    setExpandedFilters({
-      ...expandedFilters,
-      [filter]: !expandedFilters[filter]
-    });
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
 
-  // Handle sort
+        const runResponse = await fetch(`http://localhost:3000/run/runDetails/${runId}`);
+        if (!runResponse.ok) {
+          throw new Error('Failed to fetch run details');
+        }
+        const runData = await runResponse.json();
+        setRunDetails(runData);
+
+        const participantsResponse = await fetch(`http://localhost:3000/run/${runId}/participants`);
+        if (!participantsResponse.ok) {
+          throw new Error('Failed to fetch participants');
+        }
+
+        const participantsData = await participantsResponse.json();
+        setParticipants(participantsData);
+
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (runId) {
+      fetchData();
+    }
+  }, [runId]);
+
+
   const requestSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -44,111 +67,39 @@ function RunParticipants() {
     setSortConfig({ key, direction });
   };
 
-  // Mock data for run details
-  const runDetails = {
-    id: runId || '1',
-    title: "Morning Trail Run",
-    location: "Central Park, New York",
-    date: "April 30, 2025",
-    status: "Active",
-    totalParticipants: 24,
-    maxParticipants: 30,
-    description: "A beautiful morning run through the scenic trails of Central Park."
-  };
 
-  // Mock data for participants
-  const participantsData = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      username: "sarahj",
-      email: "sarah.j@example.com",
-      age: 29,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Jan 15, 2024",
-      averagePace: "5:30 min/km",
-      runsCompleted: 24,
-      status: "accepted"
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      username: "mikec",
-      email: "mchen@example.com",
-      age: 34,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Mar 22, 2024",
-      averagePace: "4:45 min/km",
-      runsCompleted: 42,
-      status: "accepted"
-    },
-    {
-      id: 3,
-      name: "Jessica Miller",
-      username: "jessmiller",
-      email: "jess.m@example.com",
-      age: 26,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Feb 10, 2024",
-      averagePace: "5:15 min/km",
-      runsCompleted: 18,
-      status: "pending"
-    },
-    {
-      id: 4,
-      name: "David Wilson",
-      username: "davew",
-      email: "d.wilson@example.com",
-      age: 31,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Dec 5, 2023",
-      averagePace: "6:00 min/km",
-      runsCompleted: 15,
-      status: "pending"
-    },
-    {
-      id: 5,
-      name: "Emma Thompson",
-      username: "emmat",
-      email: "emma.t@example.com",
-      age: 27,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Apr 3, 2024",
-      averagePace: "5:50 min/km",
-      runsCompleted: 9,
-      status: "rejected"
-    },
-    {
-      id: 6,
-      name: "Alex Rodriguez",
-      username: "alexr",
-      email: "alex.r@example.com",
-      age: 33,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Jan 30, 2024",
-      averagePace: "4:30 min/km",
-      runsCompleted: 35,
-      status: "accepted"
-    },
-    {
-      id: 7,
-      name: "Lisa Wang",
-      username: "lisaw",
-      email: "lisa.wang@example.com",
-      age: 29,
-      profilePic: "/api/placeholder/50/50",
-      joinedSince: "Feb 18, 2024",
-      averagePace: "5:10 min/km",
-      runsCompleted: 22,
-      status: "pending"
+  /*
+  const changeParticipantStatus = async (userId, newStatus) => {
+    try {
+      const response = await fetch(`http://localhost:3000/run/${runId}/participants/${userId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update participant status');
+      }
+
+      // Update local state to reflect the change
+      setParticipants(participants.map(participant => 
+        participant.id === userId ? { ...participant, status: newStatus } : participant
+      ));
+    } catch (err) {
+      console.error('Error updating participant status:', err);
+      alert('Failed to update participant status. Please try again.');
     }
-  ];
+  };
+  */
 
   // Filter participants based on search query and view mode
-  const filteredParticipants = participantsData.filter(participant => {
+  const filteredParticipants = participants.filter(participant => {
     // Filter by search query
+    const fullName = `${participant.firstName} ${participant.lastName}`;
     const matchesSearch = 
-      participant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       participant.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
       participant.email.toLowerCase().includes(searchQuery.toLowerCase());
     
@@ -162,133 +113,79 @@ function RunParticipants() {
 
   // Sort participants
   const sortedParticipants = [...filteredParticipants].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
+    let aValue, bValue;
+    
+    // Handle special case for full name sorting
+    if (sortConfig.key === 'firstName') {
+      aValue = `${a.firstName} ${a.lastName}`.toLowerCase();
+      bValue = `${b.firstName} ${b.lastName}`.toLowerCase();
+    } else {
+      aValue = a[sortConfig.key];
+      bValue = b[sortConfig.key];
+      
+      // Handle string comparisons (case insensitive)
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        aValue = aValue.toLowerCase();
+        bValue = bValue.toLowerCase();
+      }
+    }
+    
+    if (aValue < bValue) {
       return sortConfig.direction === 'ascending' ? -1 : 1;
     }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
+    if (aValue > bValue) {
       return sortConfig.direction === 'ascending' ? 1 : -1;
     }
     return 0;
   });
 
   // Stats for participant status
-  const acceptedCount = participantsData.filter(p => p.status === 'accepted').length;
-  const pendingCount = participantsData.filter(p => p.status === 'pending').length;
-  const rejectedCount = participantsData.filter(p => p.status === 'rejected').length;
+  const acceptedCount = participants.filter(p => p.status === 'accepted').length;
+  const pendingCount = participants.filter(p => p.status === 'pending').length;
+  const rejectedCount = participants.filter(p => p.status === 'rejected').length;
 
-  // Handle status change
-  const changeParticipantStatus = (id, newStatus) => {
-    // In a real app, this would make an API call to update the participant status
-    console.log(`Changed participant ${id} status to ${newStatus}`);
-    // This would update the state in a real application
+  const calculateAveragePace = () => {
+    const acceptedParticipants = participants.filter(p => p.status === 'accepted');
+    if (acceptedParticipants.length === 0) return 'N/A';
+    
+    let totalSeconds = 0;
+    let count = 0;
+    
+    acceptedParticipants.forEach(participant => {
+      if (participant.averagePace) {
+        const paceParts = participant.averagePace.split(' ')[0].split(':');
+        if (paceParts.length === 2) {
+          const minutes = parseInt(paceParts[0]);
+          const seconds = parseInt(paceParts[1]);
+          totalSeconds += minutes * 60 + seconds;
+          count++;
+        }
+      }
+    });
+    
+    if (count === 0) return 'N/A';
+    
+    const averageSeconds = Math.round(totalSeconds / count);
+    const avgMinutes = Math.floor(averageSeconds / 60);
+    const avgSeconds = averageSeconds % 60;
+    
+    return `${avgMinutes}:${avgSeconds.toString().padStart(2, '0')} min/km`;
   };
+
+  if (loading) {
+    return <div className="loading-container">Loading run details...</div>;
+  }
+
+  if (error) {
+    return <div className="error-container">Error: {error}</div>;
+  }
+
+  if (!runDetails) {
+    return <div className="error-container">No run details found.</div>;
+  }
 
   return (
     <div className="search-run-container">
-      {/* Side Navigation */}
-      <div className="side-nav-search">
-        <div className="filter-header">Filter Participants</div>
-        
-        {/* Status Filter */}
-        <div className="filter-section">
-          <div className="filter-title" onClick={() => toggleFilter('status')}>
-            <h3>Status</h3>
-            <svg className={`chevron-icon ${expandedFilters.status ? 'rotate' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          {expandedFilters.status && (
-            <div className="filter-content">
-              <div className="filter-list">
-                <div className="filter-item">
-                  <input type="radio" id="status-all" name="status" checked={viewMode === 'all'} onChange={() => setViewMode('all')} />
-                  <label htmlFor="status-all">All</label>
-                </div>
-                <div className="filter-item">
-                  <input type="radio" id="status-accepted" name="status" checked={viewMode === 'accepted'} onChange={() => setViewMode('accepted')} />
-                  <label htmlFor="status-accepted">Accepted</label>
-                </div>
-                <div className="filter-item">
-                  <input type="radio" id="status-pending" name="status" checked={viewMode === 'pending'} onChange={() => setViewMode('pending')} />
-                  <label htmlFor="status-pending">Pending</label>
-                </div>
-                <div className="filter-item">
-                  <input type="radio" id="status-rejected" name="status" checked={viewMode === 'rejected'} onChange={() => setViewMode('rejected')} />
-                  <label htmlFor="status-rejected">Rejected</label>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Age Filter */}
-        <div className="filter-section">
-          <div className="filter-title" onClick={() => toggleFilter('age')}>
-            <h3>Age Range</h3>
-            <svg className={`chevron-icon ${expandedFilters.age ? 'rotate' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          {expandedFilters.age && (
-            <div className="filter-content">
-              <div className="filter-input">
-                <label htmlFor="min-age">Min Age:</label>
-                <input type="number" id="min-age" min="18" max="100" />
-              </div>
-              <div className="filter-input">
-                <label htmlFor="max-age">Max Age:</label>
-                <input type="number" id="max-age" min="18" max="100" />
-              </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Join Date Filter */}
-        <div className="filter-section">
-          <div className="filter-title" onClick={() => toggleFilter('joinDate')}>
-            <h3>Join Date</h3>
-            <svg className={`chevron-icon ${expandedFilters.joinDate ? 'rotate' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          {expandedFilters.joinDate && (
-            <div className="filter-content">
-              <div className="filter-input">
-                <label htmlFor="from-date">From:</label>
-                <input type="date" id="from-date" />
-              </div>
-              <div className="filter-input">
-                <label htmlFor="to-date">To:</label>
-                <input type="date" id="to-date" />
-              </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Completed Runs Filter */}
-        <div className="filter-section">
-          <div className="filter-title" onClick={() => toggleFilter('completedRuns')}>
-            <h3>Completed Runs</h3>
-            <svg className={`chevron-icon ${expandedFilters.completedRuns ? 'rotate' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          {expandedFilters.completedRuns && (
-            <div className="filter-content">
-              <div className="filter-input">
-                <label htmlFor="min-runs">Minimum:</label>
-                <input type="number" id="min-runs" min="0" />
-              </div>
-              <div className="filter-input">
-                <label htmlFor="max-runs">Maximum:</label>
-                <input type="number" id="max-runs" min="0" />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Main Content */}
       <div className="main-content">
         <div className="header-container">
           <div>
@@ -300,19 +197,19 @@ function RunParticipants() {
             </div>
             <h1 className="page-title">Manage Participants</h1>
             <p className="page-subtitle">
-              {runDetails.title} - {runDetails.location} | {runDetails.date}
+              {runDetails.name || 'Run'} - {runDetails.location} | {new Date(runDetails.date).toLocaleDateString()}
             </p>
           </div>
           
           <div className="run-capacity-wrapper">
             <div className="run-capacity-info">
               <span className="capacity-label">Participants:</span>
-              <span className="capacity-count">{runDetails.totalParticipants} / {runDetails.maxParticipants}</span>
+              <span className="capacity-count">{participants.length} / {runDetails.maxPeople}</span>
             </div>
             <div className="capacity-bar">
               <div 
                 className="capacity-progress" 
-                style={{ width: `${(runDetails.totalParticipants / runDetails.maxParticipants) * 100}%` }}
+                style={{ width: `${(participants.length / runDetails.maxPeople) * 100}%` }}
               ></div>
             </div>
           </div>
@@ -369,7 +266,7 @@ function RunParticipants() {
             </div>
             <div className="stat-info">
               <h3>Average Pace</h3>
-              <p className="stat-number">5:15 min/km</p>
+              <p className="stat-number">{calculateAveragePace()}</p>
             </div>
           </div>
         </div>
@@ -380,9 +277,9 @@ function RunParticipants() {
             <table className="results-table">
               <thead>
                 <tr>
-                  <th onClick={() => requestSort('name')}>
+                  <th onClick={() => requestSort('firstName')}>
                     Participant
-                    {sortConfig.key === 'name' && (
+                    {sortConfig.key === 'firstName' && (
                       <span className="sort-indicator">{sortConfig.direction === 'ascending' ? ' ↑' : ' ↓'}</span>
                     )}
                   </th>
@@ -392,9 +289,9 @@ function RunParticipants() {
                       <span className="sort-indicator">{sortConfig.direction === 'ascending' ? ' ↑' : ' ↓'}</span>
                     )}
                   </th>
-                  <th onClick={() => requestSort('joinedSince')}>
+                  <th onClick={() => requestSort('joinedAt')}>
                     Joined Since
-                    {sortConfig.key === 'joinedSince' && (
+                    {sortConfig.key === 'joinedAt' && (
                       <span className="sort-indicator">{sortConfig.direction === 'ascending' ? ' ↑' : ' ↓'}</span>
                     )}
                   </th>
@@ -420,85 +317,99 @@ function RunParticipants() {
                 </tr>
               </thead>
               <tbody>
-                {sortedParticipants.map(participant => (
-                  <tr key={participant.id} className="result-row">
-                    <td className="participant-cell">
-                      <div className="participant-info">
-                        <img src={participant.profilePic} alt={participant.name} className="participant-avatar" />
-                        <div className="participant-details">
-                          <span className="participant-name">{participant.name}</span>
-                          <div className="participant-subinfo">
-                            <span className="participant-username">@{participant.username}</span>
-                            <span className="participant-email">{participant.email}</span>
+                {sortedParticipants.length > 0 ? (
+                  sortedParticipants.map(participant => (
+                    <tr key={participant.id} className="result-row">
+                      <td className="participant-cell">
+                        <div className="participant-info">
+                          <img 
+                            src={participant.profilePic || "/api/placeholder/50/50"} 
+                            alt={`${participant.firstName} ${participant.lastName}`} 
+                            className="participant-avatar" 
+                          />
+                          <div className="participant-details">
+                            <span className="participant-name">{participant.firstName} {participant.lastName}</span>
+                            <div className="participant-subinfo">
+                              <span className="participant-username">@{participant.username}</span>
+                              <span className="participant-email">{participant.email}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>{participant.age}</td>
-                    <td>
-                      <div className="info-with-icon">
-                        <svg className="info-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                          <line x1="16" y1="2" x2="16" y2="6"></line>
-                          <line x1="8" y1="2" x2="8" y2="6"></line>
-                          <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        {participant.joinedSince}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="info-with-icon">
-                        <svg className="info-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        {participant.averagePace}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="info-with-icon">
-                        <svg className="info-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        {participant.runsCompleted}
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`status-badge ${participant.status}`}>
-                        {participant.status.charAt(0).toUpperCase() + participant.status.slice(1)}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="action-buttons">
-                        {participant.status !== 'accepted' && (
-                          <button 
-                            className="accept-btn" 
-                            onClick={() => changeParticipantStatus(participant.id, 'accepted')}
-                            title="Accept Participant"
-                          >
-                            <UserCheck size={16} />
-                          </button>
-                        )}
-                        {participant.status !== 'rejected' && (
-                          <button 
-                            className="reject-btn" 
-                            onClick={() => changeParticipantStatus(participant.id, 'rejected')}
-                            title="Reject Participant"
-                          >
-                            <UserX size={16} />
-                          </button>
-                        )}
-                        <button className="view-profile-btn" title="View Profile">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
+                      </td>
+                      <td>{participant.age}</td>
+                      <td>
+                        <div className="info-with-icon">
+                          <svg className="info-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
                           </svg>
-                        </button>
-                      </div>
-                    </td>
+                          {new Date(participant.joinedAt).toLocaleDateString()}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="info-with-icon">
+                          <svg className="info-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                          </svg>
+                          {participant.averagePace || 'N/A'}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="info-with-icon">
+                          <svg className="info-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                          </svg>
+                          {participant.runsCompleted}
+                        </div>
+                      </td>
+                      <td>
+                        <span className={`status-badge ${participant.status}`}>
+                          {participant.status ? participant.status.charAt(0).toUpperCase() + participant.status.slice(1) : 'Unknown'}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          {participant.status !== 'accepted' && (
+                            <button 
+                              className="accept-btn" 
+                              onClick={() => changeParticipantStatus(participant.id, 'accepted')}
+                              title="Accept Participant"
+                            >
+                              <UserCheck size={16} />
+                            </button>
+                          )}
+                          {participant.status !== 'rejected' && (
+                            <button 
+                              className="reject-btn" 
+                              onClick={() => changeParticipantStatus(participant.id, 'rejected')}
+                              title="Reject Participant"
+                            >
+                              <UserX size={16} />
+                            </button>
+                          )}
+                          <button 
+                            className="view-profile-btn" 
+                            title="View Profile"
+                            onClick={() => navigate(`/user/profile/${participant.id}`)}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                              <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="no-results">No participants found</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -507,13 +418,15 @@ function RunParticipants() {
         {/* Pagination */}
         <div className="pagination-container">
           <div className="pagination-info">
-            Showing <span className="pagination-bold">1-{sortedParticipants.length}</span> of <span className="pagination-bold">{sortedParticipants.length}</span> participants
+            Showing <span className="pagination-bold">1-{sortedParticipants.length}</span> of <span className="pagination-bold">{participants.length}</span> participants
           </div>
           <div className="pagination-controls">
             <button className="pagination-btn" disabled>Previous</button>
             <button className="pagination-btn" disabled>Next</button>
           </div>
         </div>
+
+        <DetailsOrg />
       </div>
     </div>
   );
