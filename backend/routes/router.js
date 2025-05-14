@@ -10,6 +10,7 @@ import {
 
 import { createAdmin, logAdmin } from '../config/admin/adminController.js'
 import { createRunController, getCreatedRunDetails, getCreatedRunsController, getRunParticipantsController } from '../config/organizer/runController.js'
+import { getUserData } from '../config/user/getUserData.js'
 
 
 router.post('/signup', createUser)

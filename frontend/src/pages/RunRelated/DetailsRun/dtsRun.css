@@ -273,7 +273,7 @@
 }
 
 /* Difficulty badges */
-.difficulty-badge {
+.difficulty-badge, .status-badge {
   padding: 5px 10px;
   border-radius: 6px;
   font-size: 12px;
@@ -284,6 +284,23 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   letter-spacing: 0.5px;
 }
+
+  .status-badge.completed {
+    background: linear-gradient(135deg, var(--blue-shade-light), #0077CC);
+  }
+  
+  .status-badge.upcoming {
+    background: linear-gradient(135deg, #8B5CF6, #6366F1);
+  }
+  
+  .status-badge.cancelled {
+    background: linear-gradient(135deg, #9CA3AF, #6B7280);
+  }
+  
+  .status-badge.rejected {
+    background: linear-gradient(135deg, #F43F5E, #E11D48);
+  }
+
 
 .difficulty-badge.easy {
   background: linear-gradient(135deg, #10B981, #059669);
@@ -573,3 +590,4 @@
     align-items: center;
   }
 }
+

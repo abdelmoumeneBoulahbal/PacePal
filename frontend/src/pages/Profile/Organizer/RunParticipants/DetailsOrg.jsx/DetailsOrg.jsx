@@ -2,44 +2,15 @@
 import { User, Calendar, Clock, Users, Activity, Map, Award, MapPin, Heart, Shield, ChevronLeft } from 'lucide-react';
 import '../../../../RunRelated/DetailsRun/dtsRun.css'; // We'll create this CSS file
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect,useState } from 'react'
 
-function DetailsOrg() {
 
-
+function DetailsOrg({ data, creatorData }) {
   const navigate = useNavigate();
 
-  // Sample run data
-  const runData = {
-    id: 1,
-    title: 'Morning Run',
-    createdBy: {
-      username: 'runner1',
-      name: 'Ahmed Bensaïd',
-      memberSince: '2023-05-15',
-      title: 'Running Enthusiast',
-      runsCreated: 24,
-      profilePic: '/api/placeholder/50/50'
-    },
-    location: 'Jardin d\'Essai du Hamma, Algiers',
-    mapLink: 'https://goo.gl/maps/123456',
-    date: '2025-04-26',
-    time: '08:00',
-    duration: '45 mins',
-    difficulty: 'Medium',
-    ageRange: '26-35',
-    gender: 'Mixed',
-    participants: [
-      { username: 'mountainRunner', name: 'Karim Farès', age: 28, profilePic: '/api/placeholder/40/40' },
-      { username: 'fitnessLover', name: 'Sarah Khalil', age: 32, profilePic: '/api/placeholder/40/40' },
-      { username: 'marathonPro', name: 'Leila Ziani', age: 29, profilePic: '/api/placeholder/40/40' },
-      { username: 'trailblazer', name: 'Omar Benali', age: 34, profilePic: '/api/placeholder/40/40' },
-      { username: 'desertTrekker', name: 'Amina Hadj', age: 27, profilePic: '/api/placeholder/40/40' }
-    ],
-    speed: '10 km/h',
-    trackInfo: 'Park trail with slight elevation',
-    zone: 'Zone 2',
-    description: 'A refreshing morning run through the beautiful Jardin d\'Essai. We\'ll follow the main path and enjoy the scenic views of flora. Suitable for intermediate runners who want to improve their endurance while enjoying nature.'
-  };
+
+
+  const runData = data?.run?.[0] || {};
 
   
   return (
@@ -54,7 +25,7 @@ function DetailsOrg() {
       <div className="details-content">
         {/* Run Header */}
         <div className="run-header">
-          <h2 className="run-title-detail">{runData.title}</h2>
+          <h2 className="run-title-detail">{runData.run_title}</h2>
         </div>
         
         {/* Run Creator Info */}
@@ -62,34 +33,46 @@ function DetailsOrg() {
           <div className="creator-header">
             <h3>Created By</h3>
           </div>
-          <div className="creator-content">
-            <div className="creator-profile">
-              <img 
-                src={runData.createdBy.profilePic} 
-                alt={runData.createdBy.name} 
-                className="creator-pic"
-              />
-              <div className="creator-info">
-                <h4>{runData.createdBy.name}</h4>
-                <p className="username">@{runData.createdBy.username}</p>
-                <p className="creator-title">{runData.createdBy.title}</p>
-              </div>
-            </div>
-            <div className="creator-stats">
-              <div className="stat-item">
-                <span className="stat-label">Member Since</span>
-                <span className="stat-value">{new Date(runData.createdBy.memberSince).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">Runs Created</span>
-                <span className="stat-value">{runData.createdBy.runsCreated}</span>
-              </div>
-            </div>
+           <div className="creator-content">
+            {creatorData ? (
+              <>
+                <div className="creator-profile">
+                  <img 
+                    src={creatorData.profile_pic || "/default-profile.png"} 
+                    alt={`${creatorData.first_name || ''} ${creatorData.last_name || ''}`}
+                    className="creator-pic"
+                  />
+                  <div className="creator-info">
+                    <h4>{creatorData.first_name} {creatorData.last_name}</h4>
+                    <p className="username">@{creatorData.username}</p>
+                    {creatorData.title && <p className="creator-title">{creatorData.title}</p>}
+                  </div>
+                </div>
+                <div className="creator-stats">
+                  <div className="stat-item">
+                    <span className="stat-label">Member Since</span>
+                    <span className="stat-value">
+                       {creatorData?.created_at ? (
+                        new Date(creatorData.created_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })
+                      ) : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Runs Created</span>
+                    <span className="stat-value">{creatorData.runs_created || 0}</span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="no-creator">Creator information not available</div>
+            )}
           </div>
+        </div>
+
         </div>
         
         {/* Run Details Grid */}
@@ -98,7 +81,7 @@ function DetailsOrg() {
           <div className="details-card description-card">
             <h3>Description & Additional Info</h3>
             <p>{runData.description}</p>
-            <p style={{ marginTop:"0rem"}}>Additional Info Paragraph</p>
+            <p style={{ marginTop:"0rem"}}> {runData.additional_location_info} </p>
           </div>
           
           {/* Run Information */}
@@ -127,7 +110,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Time</span>
-                  <span className="info-value">{runData.time}</span>
+                  <span className="info-value">{runData.start_time}</span>
                 </div>
               </div>
               
@@ -138,7 +121,7 @@ function DetailsOrg() {
                 <div className="info-content">
                   <span className="info-label">Max People</span>
                   <span className=''>
-                    50
+                    {runData.max_people}
                   </span>
                 </div>
               </div>
@@ -149,7 +132,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Age Range</span>
-                  <span className="info-value">{runData.ageRange}</span>
+                  <span className="info-value">{runData.age_range}</span>
                 </div>
               </div>
               
@@ -159,7 +142,13 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Created At</span>
-                  <span className="info-value">15 April 2025</span>
+                  <span className="info-value"> 
+                    {runData.created_at ? new Date(runData.created_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    }) : 'N/A'}
+                  </span>
                 </div>
               </div>
               
@@ -169,7 +158,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Run Track</span>
-                  <span className="info-value">{runData.trackInfo}</span>
+                  <span className="info-value">{runData.track_name}</span>
                 </div>
               </div>
 
@@ -179,12 +168,11 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Status</span>
-                  <span className={`difficulty-badge ${runData.difficulty.toLowerCase()}`}>
-                    Upcoming
+                  <span className={`status-badge ${(runData.status).toLowerCase()}`}>
+                    {runData.status}
                   </span>
                 </div>
               </div>
-
 
             </div>
           </div>
@@ -199,7 +187,7 @@ function DetailsOrg() {
               </div>
               <div className="map-placeholder">
                 <img src="/api/placeholder/400/200" alt="Map location" className="map-image" />
-                <a href={runData.mapLink} className="map-link" target="_blank" rel="noopener noreferrer">
+                <a href={runData.google_maps_link} className="map-link" target="_blank" rel="noopener noreferrer">
                   View on Google Maps
                 </a>
               </div>
@@ -219,7 +207,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Run Type</span>
-                  <span className="info-value">Hill Repeats</span>
+                  <span className="info-value"> {runData.run_type} </span>
                 </div>
               </div>
 
@@ -229,7 +217,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Duration</span>
-                  <span className="info-value">1-2 hours</span>
+                  <span className="info-value"> {runData.duration} </span>
                 </div>
               </div>
                   <div className="info-item">
@@ -238,7 +226,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Difficulty</span>
-                  <span className={`difficulty-badge ${runData.difficulty.toLowerCase()}`}>
+                  <span className={`difficulty-badge ${(runData.difficulty).toLowerCase()}`}>
                     {runData.difficulty}
                   </span>
                 </div>
@@ -249,7 +237,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Average Speed</span>
-                  <span className="info-value">12 km/h</span>
+                  <span className="info-value"> {runData.average_speed} </span>
                 </div>
               </div>
 
@@ -259,7 +247,7 @@ function DetailsOrg() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Distance</span>
-                  <span className="info-value">2000m</span>
+                  <span className="info-value"> {runData.distance} </span>
                 </div>
               </div>
 
@@ -268,8 +256,8 @@ function DetailsOrg() {
                   <Map size={20} />
                 </div>
                 <div className="info-content">
-                  <span className="info-label">Duration</span>
-                  <span className="info-value">1-3 hours</span>
+                  <span className="info-label">Group Gender</span>
+                  <span className="info-value"> {runData.gender} </span>
                 </div>
               </div>
               
@@ -278,8 +266,6 @@ function DetailsOrg() {
                 
         </div>
       </div>
-
-    </div>
   );
 }
 

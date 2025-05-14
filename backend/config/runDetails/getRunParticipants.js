@@ -19,12 +19,13 @@ const getRunParticipants = async (runId) => {
         u.email,
         u.birth_date,
         u.total_run_time,
-        rp.status,
+    
+        rp.user_run_status,
         u.gender,
         
         u.runs_completed,
         u.created_at,
-        rp.completion_status
+        rp.run_status
 
       FROM users u
       JOIN run_participants rp ON u.user_id = rp.fk_user_id
@@ -33,14 +34,6 @@ const getRunParticipants = async (runId) => {
     `;
 
     const result = await pool.query(query, [runId]);
-    
-    if (result.rows.length === 0) {
-      return {
-        success: false,
-        error: 'No participants found for this run',
-        statusCode: 404
-      };
-    }
 
     return {
       success: true,

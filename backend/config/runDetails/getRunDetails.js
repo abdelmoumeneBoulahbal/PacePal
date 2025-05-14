@@ -18,6 +18,7 @@ const getRunDetails = async (runId) => {
         const query = `
         SELECT
 
+            creator_id,
             track_name,
             run_title,
             max_people,

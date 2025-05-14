@@ -90,10 +90,7 @@
     color: var(--primary-dark);
     transform: translateX(-5px);
   }
-  
-  .back-button span {
-  }
-  
+
   /* ===== Run Stats ===== */
   .run-stats-container {
     display: grid;

@@ -11,11 +11,13 @@ export const getUserData = async (userId) => {
         const result = await pool.query(
           `SELECT
             user_id,
-            first_name, 
+            first_name,
             last_name, 
             email, 
             username, 
             birth_date, 
+            created_at,
+            runs_completed,
             gender, 
             phone
           FROM users 

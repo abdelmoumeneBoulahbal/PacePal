@@ -134,6 +134,10 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
+  .gender-participant{
+    font-size: 1rem;
+    font-weight: bold;
+  }
   /* Sort indicators */
   .sort-indicator {
     margin-left: 5px;
