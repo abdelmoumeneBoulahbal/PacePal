@@ -2,6 +2,7 @@ import { getRunDetails } from "../runDetails/getRunDetails.js";
 import { createRun } from "./createRun.js";
 import { getCreatedRunsList } from "./getRunList.js";
 import { getRunParticipants } from "../runDetails/getRunParticipants.js";
+import { getUserRuns } from "../runDetails/getUserRuns.js";
 
 const createRunController = async(req, res) => {
     const {userId} = req.params
@@ -79,8 +80,7 @@ const getRunParticipantsController = async (req, res) => {
     if (!result.success) {
       return res.status(result.statusCode || 500).json({
         success: false,
-        error: result.error,
-        ...(result.details && { details: result.details })
+        error: result.error
       });
     }
 
@@ -102,9 +102,43 @@ const getRunParticipantsController = async (req, res) => {
   }
 };
 
+const getAllUserRunsController = async (req, res) => {
+    
+    const { userId } = req.params
+
+    try{
+
+        const result = await getUserRuns(userId)
+
+        if(!result.success){
+            return res.status(result.statusCode || 500).json({
+                success: false,
+                error: result.error
+            })
+        }
+
+        res.status(200).json({
+            success: true, 
+            count : result.runs.length,
+            runs : result.runs
+        })
+
+
+    }catch(error){
+        console.error('Controller error:', error);
+        res.status(500).json({ 
+        success: false,
+        error: 'Internal server error',
+        ...(process.env.NODE_ENV === 'development' && { 
+            details: error.message 
+        })
+        });
+    }
+}
 
 export { createRunController,
          getCreatedRunsController,
          getCreatedRunDetails,
-         getRunParticipantsController 
+         getRunParticipantsController,
+         getAllUserRunsController
         }

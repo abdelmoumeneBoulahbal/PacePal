@@ -9,7 +9,7 @@ import {
  } from '../config/user/userController.js'
 
 import { createAdmin, logAdmin } from '../config/admin/adminController.js'
-import { createRunController, getCreatedRunDetails, getCreatedRunsController, getRunParticipantsController } from '../config/organizer/runController.js'
+import { createRunController, getAllUserRunsController, getCreatedRunDetails, getCreatedRunsController, getRunParticipantsController } from '../config/organizer/runController.js'
 import { getUserData } from '../config/user/getUserData.js'
 
 
@@ -22,6 +22,7 @@ router.post('/login/admin', logAdmin)
 
 router.get('/users/profile/:id', getUserProfile)
 
+router.get('/users/profile/history/:userId', getAllUserRunsController)
 
 router.get('/run/runDetails/:runId', getCreatedRunDetails)
 router.get('/run/runDetails/runParticipants/:runId', getRunParticipantsController)

@@ -8,12 +8,14 @@ import RunTime from '../../components/Profile/RunTime/RunTime'
 import RunHis from '../../components/Profile/RunHis/RunHis'
 import { TopNav } from '../../components/Profile/TopNav/TopNav'
 import { useParams } from 'react-router-dom'
+import Loading from '../../components/Loading/Loading'
 
 function Profile() {
 
   const { id } = useParams()
   const [userId, setUserId] = useState(null) 
   const [userData, setUserData] = useState(null) 
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(()=>{
@@ -27,6 +29,7 @@ function Profile() {
   }, [])
 
   const fetchUserData = async(userId) => {
+    setLoading(true)
     console.log(userId)
     try{
       const response = await fetch(`http://localhost:3000/users/profile/${userId}`, {
@@ -45,7 +48,13 @@ function Profile() {
     } catch (error) {
       console.error('Error:', error);
       return null;
+    }finally{
+      setLoading(false)
     }
+  }
+
+  if(loading){
+    return <Loading loadingInfo={'Profile Page'}/>
   }
 
   if(!userId){

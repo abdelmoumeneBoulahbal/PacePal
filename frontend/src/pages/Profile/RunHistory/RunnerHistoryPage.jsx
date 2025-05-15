@@ -17,7 +17,6 @@ function RunnerHistoryPage() {
       difficulty: "Easy",
       date: "April 30, 2025",
       organizer: "Run Club NYC",
-      zone: "Zone 1",
       averagePace: "5:30/km",
       totalDistance: "5.2 km",
       totalTime: "28:36"
@@ -30,7 +29,6 @@ function RunnerHistoryPage() {
       difficulty: "Challenging",
       date: "April 15, 2025",
       organizer: "NYC Marathon Team",
-      zone: "Zone 3",
       averagePace: "4:45/km",
       totalDistance: "18.5 km",
       totalTime: "1:27:56"
@@ -43,7 +41,6 @@ function RunnerHistoryPage() {
       difficulty: "Difficult",
       date: "May 5, 2025",
       organizer: "Brooklyn Runners",
-      zone: "Zone 2",
       averagePace: "N/A",
       totalDistance: "N/A",
       totalTime: "N/A"
@@ -56,7 +53,6 @@ function RunnerHistoryPage() {
       difficulty: "Medium",
       date: "April 10, 2025",
       organizer: "Manhattan Pacers",
-      zone: "Zone 2",
       averagePace: "N/A",
       totalDistance: "N/A",
       totalTime: "N/A"
@@ -69,7 +65,7 @@ function RunnerHistoryPage() {
       difficulty: "Expert",
       date: "May 15, 2025",
       organizer: "Trail Blazers NY",
-      zone: "Zone 3",
+
       averagePace: "N/A",
       totalDistance: "N/A",
       totalTime: "N/A"
@@ -186,7 +182,7 @@ function RunnerHistoryPage() {
                   <th>Difficulty</th>
                   <th>Date</th>
                   <th>Organizer</th>
-                  <th>Zone</th>
+                  <th>Run Type</th>
                   <th>Performance</th>
                   <th>Actions</th>
                 </tr>
@@ -249,9 +245,14 @@ function RunnerHistoryPage() {
                             <span className="performance-value">{run.totalDistance}</span>
                           </div>
                           <div className="performance-item">
-                            <span className="performance-label">Time:</span>
+                            <span className="performance-label">Duration:</span>
                             <span className="performance-value">{run.totalTime}</span>
                           </div>
+                          <div className="performance-item">
+                            <span className="performance-label">Gender:</span>
+                            <span className="performance-value">Mix</span>
+                          </div>
+                            
                         </div>
                       ) : (
                         <span className="no-performance">No performance data</span>

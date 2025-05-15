@@ -3,6 +3,7 @@ import './orgRunPag.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { getRunIcon } from '../../../../utils/RunIcons.jsx';
+import Loading from '../../../../components/Loading/Loading.jsx';
 
 function OrgRunPage() {
   const navigate = useNavigate();
@@ -140,7 +141,7 @@ function OrgRunPage() {
   };
 
   if (loading) {
-    return <div className="loading-container">Loading runs...</div>;
+    return <Loading loadingInfo={"Your Created Runs"} />;
   }
 
   if (error) {
@@ -348,7 +349,7 @@ function OrgRunPage() {
               </svg>
             </div>
             <div className="stat-info">
-              <h3>Total Participants</h3>
+              <h3>Total Runs</h3>
               <p className="stat-number">{stats.totalParticipants}</p>
             </div>
           </div>
@@ -425,7 +426,7 @@ function OrgRunPage() {
                       </td>
                       <td>
                         <div className="action-buttons">
-                          <button 
+                          <button
                             onClick={() => navigate(`details/${run.id}`, { state: { run } })}
                             className="details-btn"
                           >

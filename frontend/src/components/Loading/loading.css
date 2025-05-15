@@ -1,0 +1,15 @@
+.loading-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 12rem;
+}
+.loading-div img{
+    width: 150px;
+}
+.loading-div h2{
+    font-family: "Bebas Neue";
+    letter-spacing: 2px;
+    color: var(--black);
+}

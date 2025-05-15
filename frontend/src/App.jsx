@@ -30,7 +30,7 @@ function App() {
         
         <Route path="/user/search" element={<SearchRun />} />
         <Route path="/details/:runId" element={<DetailsRun />} />
-        <Route path="/user/profile/history" element={<RunnerHistoryPage />} />
+        <Route path="/history" element={<RunnerHistoryPage />} />
         <Route path="/user/profile/settings" element={<Settings />} />
 
       </Routes>

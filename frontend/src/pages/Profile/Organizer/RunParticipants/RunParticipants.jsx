@@ -4,6 +4,8 @@ import { ChevronLeft, Search, UserCheck, UserX, Filter, ArrowUpDown } from 'luci
 import './runpart.css';
 import DetailsOrg from './DetailsOrg.jsx/DetailsOrg';
 
+import Loading from '../../../../components/Loading/Loading';
+
 function RunParticipants() {
   const navigate = useNavigate();
   const { runId } = useParams();
@@ -129,7 +131,7 @@ function RunParticipants() {
 
 
   if (loading) {
-    return <div className="loading-container">Loading run details...</div>;
+    return <Loading loadingInfo={"Run Details"} />
   }
 
   if (error) {
