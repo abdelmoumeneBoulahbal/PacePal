@@ -11,9 +11,9 @@ import OffRoundIcon from '@rsuite/icons/OffRound';
 
 import './sdnav.css'
 
-function MySidenav({ userData }) {
+function MySidenav({ userData, onLogout }) {
 
-
+    const [showConfirm, setShowConfirm] = useState(false);
     const navigate = useNavigate()
     const [activeKey, setActiveKey] = useState('1');
     
@@ -56,7 +56,40 @@ function MySidenav({ userData }) {
                   Settings
                 </Nav.Item>
                 <Nav.Item icon={<OffRoundIcon />}>
-                  Logout
+                    <div className="logout-section"
+                    >
+                      <button 
+                        onClick={() => setShowConfirm(true)}
+                        className="logout-button"
+                      >
+                        Logout
+                      </button>
+
+                      {showConfirm && (
+                        <div className='overlay'>
+                          <div className="logout-confirm-dialog">
+                            <p>Are you sure you want to logout?</p>
+                            <div className="confirm-buttons">
+                              <button 
+                                onClick={() => {
+                                  onLogout();
+                                  setShowConfirm(false);
+                                }}
+                                className="confirm-logout"
+                              >
+                                Yes, Logout
+                              </button>
+                              <button 
+                                onClick={() => setShowConfirm(false)}
+                                className="cancel-logout"
+                                >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                 </Nav.Item>
               </Nav>
             </Sidenav.Body>

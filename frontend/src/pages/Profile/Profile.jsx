@@ -7,7 +7,7 @@ import LastRun from '../../components/Profile/LastRun/LastRun'
 import RunTime from '../../components/Profile/RunTime/RunTime'
 import RunHis from '../../components/Profile/RunHis/RunHis'
 import { TopNav } from '../../components/Profile/TopNav/TopNav'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
 
 function Profile() {
@@ -16,6 +16,16 @@ function Profile() {
   const [userId, setUserId] = useState(null) 
   const [userData, setUserData] = useState(null) 
   const [loading, setLoading] = useState(true)
+
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    setUserId(null)
+    setUserData(null)
+
+    window.history.replaceState(null, '', '/auth/login');
+    window.location.href = '/auth/login';
+  };
 
 
   useEffect(()=>{
@@ -69,7 +79,7 @@ function Profile() {
           <TopNav />
         </div>
         <div style={{ gridArea: 'sidenav' }}>
-          <MySidenav userData={userData} />
+          <MySidenav userData={userData}  onLogout={handleLogout} />
         </div>
         <div style={{ gridArea: 'lastRun' }}>
           <LastRun userData={userData} />
