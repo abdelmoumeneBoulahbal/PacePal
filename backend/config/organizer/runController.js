@@ -45,7 +45,7 @@ const getCreatedRunsController = async (req, res) => {
     }
 };
 
-const getCreatedRunDetails = async (req, res) => {
+const getRunsDetails = async (req, res) => {
     const { runId } = req.params;
 
     try {
@@ -138,7 +138,7 @@ const getAllUserRunsController = async (req, res) => {
 
 export { createRunController,
          getCreatedRunsController,
-         getCreatedRunDetails,
+         getRunsDetails,
          getRunParticipantsController,
          getAllUserRunsController
         }

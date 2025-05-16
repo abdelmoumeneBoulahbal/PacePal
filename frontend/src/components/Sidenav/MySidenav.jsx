@@ -44,7 +44,7 @@ function MySidenav({ userData }) {
                               className='rh-item-sn'>
                     As an Organizer
                   </Nav.Item>
-                  <Nav.Item onClick={() => navigate('history')} className='rh-item-sn second'>
+                  <Nav.Item onClick={() => navigate('/user/profile/history', {state: {userId: userData.user_id}})} className='rh-item-sn second'>
                     As a Runner
                   </Nav.Item>
                 </Nav.Menu>
