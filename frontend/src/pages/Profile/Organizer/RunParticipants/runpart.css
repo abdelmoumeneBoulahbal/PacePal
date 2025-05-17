@@ -98,42 +98,43 @@
     background: linear-gradient(135deg, #9CA3AF, #6B7280);
   }
   
-  /* Action buttons */
-  .accept-btn, .reject-btn, .view-profile-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
+  .actions-div{
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .actions-div button{
+    color: var(--text-dark);
+    padding: .5rem;
+    font-size: .8rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
+    gap: .5rem;
+    border-radius: 10px;
+
+    transition: all 0.2s ease;
   }
-  
-  .accept-btn {
-    background: linear-gradient(135deg, #10B981, #059669);
-    color: white;
-    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+  .actions-div button:hover{
+    transform: scale(1.07);
+    box-shadow: 0px 5px 5px rgba(196, 196, 196, 0.688);
   }
-  
-  .reject-btn {
-    background: linear-gradient(135deg, #F43F5E, #E11D48);
-    color: white;
-    box-shadow: 0 2px 6px rgba(225, 29, 72, 0.3);
+  .actions-div .acc-btn{
+    background-color: var(--teal);
   }
-  
-  .view-profile-btn {
-    background: var(--gradient-accent);
-    color: white;
-    box-shadow: 0 2px 6px rgba(91, 157, 234, 0.3);
+  .acc-btn:hover{
+    background-color: #198f99;
   }
-  
-  .accept-btn:hover, .reject-btn:hover, .view-profile-btn:hover {
-    transform: scale(1.15);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  .dec-btn:hover{
+    background-color: var(--primary-dark) !important;
   }
-  
+  .actions-div .dec-btn{
+    background-color: var(--primary-color);
+  }
+  .info-icon{
+    color: var(--text-dark) !important;
+  }
+
   .gender-participant{
     font-size: 1rem;
     font-weight: bold;

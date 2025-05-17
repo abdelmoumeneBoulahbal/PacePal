@@ -262,10 +262,18 @@ const rejectedCount = Array.isArray(participants?.participants) ?
                   <th>Actions</th>
                 </tr>
               </thead>
-              {!Array.isArray(participants.participants) && participants.participants.length > 0 ? (
+              {!Array.isArray(participants.participants) || participants.participants.length > 0 ? (
              <tbody>
                 {participants.participants.map(participant => (
-                  <tr  key={participant.id || `${participant.username}_${participant.email}`}  className="result-row">
+                  <tr  key={participant.id || `${participant.username}_${participant.email}`} 
+                   className="result-row"
+                     style={{
+                      backgroundColor: participant.user_run_status === 'rejected' ? '#e5e7eb' : 'transparent',
+                      opacity: participant.user_run_status === 'rejected' ? 0.75 : 1,
+                      pointerEvents: participant.user_run_status === 'rejected' ? 'none' : '',
+                      
+                    }}
+                   >
                     <td className="participant-cell">
                       <div className="participant-info">
                         <img 
@@ -295,7 +303,7 @@ const rejectedCount = Array.isArray(participants?.participants) ?
                           <circle cx="12" cy="12" r="10"></circle>
                           <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
-                        {participant.average_pace || 'N/A'}
+                        {new Date(participant.created_at).toISOString().split('T')[0]}
                       </div>
                     </td>
                     <td>
@@ -311,17 +319,62 @@ const rejectedCount = Array.isArray(participants?.participants) ?
                       <span className='gender-participant'> {participant.gender} </span>
                     </td>
                     <td>
-                      <span className={`status-badge ${participant.status || 'pending'}`}>
-                        {participant.status ? participant.status.charAt(0).toUpperCase() + participant.status.slice(1) : 'Pending'}
+                      <span className={`status-badge ${participant.user_run_status || 'pending'}`}>
+                        {participant.user_run_status ? participant.user_run_status.charAt(0).toUpperCase() + participant.user_run_status.slice(1) : 'Pending'}
                       </span>
                     </td>
+                    {
+                      participant.user_run_status == 'pending' ? 
+                      (
+                        
+                    
+                    <td>
+                      <div className='actions-div'>
+                        <button className='acc-btn'>
+                          Accept
+                          <svg 
+                            className="info-icon" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="14" 
+                            height="14" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="4" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                          >
+                            <path d="M20 6L9 17l-5-5" />
+                          </svg>
+                        </button>
+                        <button className='dec-btn'>
+                          Decline
+                          <svg 
+                            className="info-icon" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="14" 
+                            height="14" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="4" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                          >
+                            <path d="M18 6L6 18" />
+                            <path d="M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                      ): <td>Runner's Status Already Set </td> }
                   </tr>
                 ))}
               </tbody>
               ): null}
             </table>
           </div>
-          
+
           {!Array.isArray(participants?.participants) || participants.participants.length === 0 ? (
           <div className="no-participants-container">
             <div className="no-results-message">

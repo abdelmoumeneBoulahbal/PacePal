@@ -3,6 +3,7 @@ import { createRun } from "./createRun.js";
 import { getCreatedRunsList } from "./getRunList.js";
 import { getRunParticipants } from "../runDetails/getRunParticipants.js";
 import { getUserRuns } from "../runDetails/getUserRuns.js";
+import { updateStatus } from "./updateStatus.js";
 
 const createRunController = async(req, res) => {
     const {userId} = req.params
@@ -136,9 +137,36 @@ const getAllUserRunsController = async (req, res) => {
     }
 }
 
+const handleStatusUpdate = async (req, res)=> {
+    try{
+        const { userId, runId } = req.params
+        const { status } = req.body
+
+        if (!['accepted', 'rejected', 'pending'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status value' });
+        }
+
+        const result = await updateStatus(userId, runId, status);
+
+        if (!result.success) {
+            return res.status(400).json({ error: result.error });
+        }
+
+        res.json({
+            message: 'Status updated successfully',
+            participant: result.participant
+        });
+    } catch (err) {
+        console.error('Status update error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 export { createRunController,
          getCreatedRunsController,
          getRunsDetails,
          getRunParticipantsController,
-         getAllUserRunsController
+         getAllUserRunsController,
+
+         handleStatusUpdate
         }
