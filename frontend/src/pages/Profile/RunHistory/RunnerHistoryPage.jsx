@@ -155,7 +155,7 @@ const totalDistance = participatedRuns
             <div className="back-navigation">
               <button 
                 className="back-button"
-                onClick={() => navigate('/user/profile', { state: { userId } })}
+                onClick={() => navigate(-1)}
               >
                 <ChevronLeft size={20} />
                 <span>Go Back</span>

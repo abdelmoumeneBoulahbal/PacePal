@@ -1,9 +1,18 @@
 /* eslint-disable no-unused-vars */
-import { User, Calendar, Clock, Users, Activity, Map, Award, MapPin, Heart, Shield, ChevronLeft } from 'lucide-react';
+import { User,
+   Calendar, Clock, 
+   Users, Activity, 
+   Map, Award, MapPin, 
+   Heart, Shield, 
+   ChevronLeft,
+    MapPinned, Gauge, FootprintsIcon,
+    ActivityIcon, UserPlus2, Timer
+  
+  } from 'lucide-react';
 import '../../../../RunRelated/DetailsRun/dtsRun.css'; // We'll create this CSS file
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect,useState } from 'react'
-
+import Maps from '../../../../../assets/icons/maps.gif'
 
 function DetailsOrg({ data, creatorData }) {
   const navigate = useNavigate();
@@ -63,7 +72,7 @@ function DetailsOrg({ data, creatorData }) {
                   </div>
                   <div className="stat-item">
                     <span className="stat-label">Runs Created</span>
-                    <span className="stat-value">{creatorData.runs_created || 0}</span>
+                    <span className="stat-value">{creatorData.runs_created}</span>
                   </div>
                 </div>
               </>
@@ -183,11 +192,25 @@ function DetailsOrg({ data, creatorData }) {
             <div className="location-content">
               <div className="location-header">
                 <MapPin size={20} />
-                <p>{runData.location}</p>
+                <p style={{
+                  fontWeight:'bold',
+                  fontSize:'1.2rem'
+                }}>{runData.location}</p>
               </div>
               <div className="map-placeholder">
-                <img src="/api/placeholder/400/200" alt="Map location" className="map-image" />
-                <a href={runData.google_maps_link} className="map-link" target="_blank" rel="noopener noreferrer">
+                <img 
+                src={Maps} 
+                alt="Map location" 
+                style={{
+                  width:'200px',
+                  marginLeft:'-1.2rem'
+                }}
+                />
+                <a href={runData.google_maps_link}
+                  style={{
+                    fontSize:'1.1rem'
+                  }}
+                className="map-link" target="_blank" rel="noopener noreferrer">
                   View on Google Maps
                 </a>
               </div>
@@ -203,7 +226,7 @@ function DetailsOrg({ data, creatorData }) {
 
               <div className="info-item">
                 <div className="info-icon-wrapper">
-                  <Map size={20} />
+                  <FootprintsIcon size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Run Type</span>
@@ -213,7 +236,7 @@ function DetailsOrg({ data, creatorData }) {
 
               <div className="info-item">
                 <div className="info-icon-wrapper">
-                  <Map size={20} />
+                  <Timer size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Duration</span>
@@ -222,7 +245,7 @@ function DetailsOrg({ data, creatorData }) {
               </div>
                   <div className="info-item">
                 <div className="info-icon-wrapper">
-                  <Map size={20} />
+                  <Activity size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Difficulty</span>
@@ -233,7 +256,7 @@ function DetailsOrg({ data, creatorData }) {
               </div>
               <div className="info-item">
                 <div className="info-icon-wrapper">
-                  <Map size={20} />
+                  <Gauge size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Average Speed</span>
@@ -243,7 +266,7 @@ function DetailsOrg({ data, creatorData }) {
 
               <div className="info-item">
                 <div className="info-icon-wrapper">
-                  <Map size={20} />
+                  <MapPinned size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Distance</span>
@@ -253,7 +276,7 @@ function DetailsOrg({ data, creatorData }) {
 
               <div className="info-item">
                 <div className="info-icon-wrapper">
-                  <Map size={20} />
+                  <User size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Group Gender</span>

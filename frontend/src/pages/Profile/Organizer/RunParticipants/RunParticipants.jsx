@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ChevronLeft, Search, UserCheck, UserX, Filter, ArrowUpDown } from 'lucide-react';
+import { ChevronLeft, Search, UserCheck, UserX, Filter, ArrowUpDown, Users } from 'lucide-react';
 import './runpart.css';
 import DetailsOrg from './DetailsOrg.jsx/DetailsOrg';
 
@@ -121,13 +121,17 @@ function RunParticipants() {
     }
   }
 
-  // Stats for participant status - safely handle non-array participants
-  const acceptedCount = Array.isArray(participants) ? 
-    participants.filter(p => p && p.status === 'accepted').length : 0;
-  const pendingCount = Array.isArray(participants) ? 
-    participants.filter(p => p && p.status === 'pending').length : 0;
-  const rejectedCount = Array.isArray(participants) ? 
-    participants.filter(p => p && p.status === 'rejected').length : 0;
+  const totalParticipants = Array.isArray(participants?.participants) ? 
+  participants.participants.length : 0;
+
+const acceptedCount = Array.isArray(participants?.participants) ? 
+  participants.participants.filter(p => p?.status === 'accepted').length : 0;
+
+const pendingCount = Array.isArray(participants?.participants) ? 
+  participants.participants.filter(p => p?.status === 'pending').length : 0;
+
+const rejectedCount = Array.isArray(participants?.participants) ? 
+  participants.participants.filter(p => p?.status === 'rejected').length : 0;
 
 
   if (loading) {
@@ -205,7 +209,11 @@ function RunParticipants() {
           </div>
           <div className="stat-card">
             <div className="stat-icon participants-icon">
-              <ArrowUpDown size={24} />
+              <Users size={24} />
+            </div>
+            <div className='stat-info'> 
+              <h3>Total Participants</h3>
+              <p className='stat-number'> {totalParticipants} </p>
             </div>
           
           </div>
@@ -254,13 +262,9 @@ function RunParticipants() {
                   <th>Actions</th>
                 </tr>
               </thead>
+              {!Array.isArray(participants.participants) && participants.participants.length > 0 ? (
              <tbody>
-              {!Array.isArray(participants.participants) || participants.participants.length === 0 ? (
-                <tr>
-                  <td colSpan="7" className="no-results">No participants found</td>
-                </tr>
-              ) : (
-                participants.participants.map(participant => (
+                {participants.participants.map(participant => (
                   <tr  key={participant.id || `${participant.username}_${participant.email}`}  className="result-row">
                     <td className="participant-cell">
                       <div className="participant-info">
@@ -311,15 +315,31 @@ function RunParticipants() {
                         {participant.status ? participant.status.charAt(0).toUpperCase() + participant.status.slice(1) : 'Pending'}
                       </span>
                     </td>
-                    <td>
-                      <span></span>
-                    </td>
                   </tr>
-                ))
-              )}
-            </tbody>
+                ))}
+              </tbody>
+              ): null}
             </table>
           </div>
+          
+          {!Array.isArray(participants?.participants) || participants.participants.length === 0 ? (
+          <div className="no-participants-container">
+            <div className="no-results-message">
+              <h3>No Participants Joined Yet</h3>
+              <p>Share this run to invite others</p>
+              <button 
+                className="share-button"
+                onClick={() => navigator.share({ 
+                  title: runDetails?.run_title,
+                  text: `Join me for ${runDetails?.run_title} run!`,
+                  url: window.location.href 
+                })}
+              >
+                Share Run
+              </button>
+            </div>
+          </div>
+        ) : null}
         </div>
 
         {/* Pagination */}

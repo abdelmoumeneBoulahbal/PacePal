@@ -55,7 +55,7 @@ function OrganizeForm() {
     isCreator: true
   });
 
-  const ageRanges = ['Under 18', '18-25', '26-35', '36-45', '46-55', '56+'];
+  const ageRanges = ['Open Category','Under 18', '18-25', '26-35', '36-45', '46-55', '56+'];
   const difficulties = ['Easy', 'Medium', 'Challenging', 'Difficult', 'Expert'];
   const durations = ['Less than 1 hour', '1-2 hours', '2-3 hours', '3-5 hours', '5+ hours'];
   const locations = [
@@ -93,8 +93,9 @@ function OrganizeForm() {
 
       const dataToSend = {
         ...formData,
-        maxUsers: formData.maxUsers ? parseInt(formData.maxUsers, 10) : null,
-        averageSpeed: formData.averageSpeed ? parseFloat(formData.averageSpeed) : null
+          time: `${formData.time}:00`,
+          is_creator: formData.isCreator, 
+          averageSpeed: formData.averageSpeed.toString() 
       };
 
       console.log('Sending data:', dataToSend);
@@ -144,7 +145,7 @@ function OrganizeForm() {
   return (
     <div className="org-form-page">
       <div className="back-navigation">
-        <button onClick={() => navigate('/user/profile/organizer/runCreated', { 
+        <button onClick={() => navigate(-1, { 
           state: { userId: userId }
         })} className="back-button">
           <ChevronLeft size={20} />
@@ -364,7 +365,7 @@ function OrganizeForm() {
             <div className="org-form-field">
               <label className="org-form-label" htmlFor="averageSpeed">Average Speed (km/h)</label>
               <input 
-                type="number" 
+                type="text" 
                 id="averageSpeed"
                 name="averageSpeed" 
                 placeholder="Expected pace" 

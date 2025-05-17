@@ -324,7 +324,7 @@ function SearchRun() {
           {/* Search Page Title */}
           <div>
           <div className="back-navigation">
-            <button onClick={() => navigate('/user/profile')} className="back-button">
+            <button onClick={() => navigate(-1)} className="back-button">
               <ChevronLeft size={20} />
               <span>Go Back</span>
             </button>

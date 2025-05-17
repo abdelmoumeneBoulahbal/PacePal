@@ -18,6 +18,7 @@ export const getUserData = async (userId) => {
             birth_date, 
             created_at,
             runs_completed,
+            runs_created,
             gender, 
             phone
           FROM users 

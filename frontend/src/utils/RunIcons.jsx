@@ -16,7 +16,7 @@ const runTypeIcons = {
   'Long Run': longRunIcon,
   'Interval Training': intervalIcon,
   'Hill Repeats': hillRepeatsIcon,
-  'Fartlek': fartlekIcon,
+  'Fartlek Run': fartlekIcon,
   'Easy Run': easyRunIcon,
   'Trail Run': trailRunIcon,
   'Race Pace': racePaceIcon,

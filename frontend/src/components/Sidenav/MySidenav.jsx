@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { Sidenav, Nav, Toggle } from 'rsuite';
 import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
-import GroupIcon from '@rsuite/icons/legacy/Group';
-import MagicIcon from '@rsuite/icons/legacy/Magic';
 import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import HistoryIcon from '@rsuite/icons/History';
 import OffRoundIcon from '@rsuite/icons/OffRound';
+import Leader from '../../assets/icons/leader (2).png'
+import Runner from '../../assets/icons/running (2).png'
+
 
 import './sdnav.css'
 
@@ -42,9 +43,29 @@ function MySidenav({ userData, onLogout }) {
                   <Nav.Item   onClick={() => navigate('/user/profile/organizer/runCreated', 
                               { state: { userId: userData.user_id } })} 
                               className='rh-item-sn'>
+                    <img src={Leader}
+                    
+                      style={{
+                          width:'20px',
+                          marginBottom:'5px',
+                          marginRight:".4rem"
+                        }}
+                      alt="Leader" />
                     As an Organizer
                   </Nav.Item>
-                  <Nav.Item onClick={() => navigate('/user/profile/history', {state: {userId: userData.user_id}})} className='rh-item-sn second'>
+                  <Nav.Item
+                  style={{
+                    display:'flex',
+                    alignItems:'center'
+                  }}
+                  onClick={() => navigate('/user/profile/history', {state: {userId: userData.user_id}})} className='rh-item-sn second'>
+                    <img src={Runner} 
+                        style={{
+                          width:'24px',
+                          marginRight:".2rem",
+                          marginLeft:'-5px'
+                        }}
+                    alt="Runner" />
                     As a Runner
                   </Nav.Item>
                 </Nav.Menu>

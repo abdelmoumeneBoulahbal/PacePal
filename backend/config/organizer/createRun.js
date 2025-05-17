@@ -11,6 +11,8 @@ const pool = new Pool({
     }
   });
   const createRun = async (userId, runData) => {
+    const client = await pool.connect()
+    
     const {
         runTitle,
         trackName,
@@ -44,7 +46,8 @@ const pool = new Pool({
 
     try {
         const runId = uuidv4();
-        
+        await client.query('BEGIN')
+
         // Define query and values directly in the try block
         const query = `
             INSERT INTO runs (
@@ -93,6 +96,16 @@ const pool = new Pool({
         ];
 
         const result = await pool.query(query, values);
+
+        await client.query(
+            `UPDATE users 
+            SET runs_created = runs_created + 1 
+            WHERE user_id = $1`,
+        [userId]
+        );
+        
+        await client.query('COMMIT');
+        
         return result.rows[0].run_id;
 
     } catch (error) {

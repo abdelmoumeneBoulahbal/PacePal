@@ -59,7 +59,7 @@ function DetailsRun() {
     <div className="run-details-container">
       {/* Back Navigation */}
       <div className="back-navigation">
-        <button onClick={() => navigate('/user/search')} className="back-button">
+        <button onClick={() => navigate(-1)} className="back-button">
           <ChevronLeft size={20} />
           <span>Back to Search</span>
         </button>
