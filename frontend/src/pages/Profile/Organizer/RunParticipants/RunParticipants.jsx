@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Search, UserCheck, UserX, Filter, ArrowUpDown, Users } from 'lucide-react';
 import './runpart.css';
 import DetailsOrg from './DetailsOrg.jsx/DetailsOrg';
+import { useCallback } from 'react';
 
 import Loading from '../../../../components/Loading/Loading';
 
@@ -75,30 +76,45 @@ function RunParticipants() {
     setSortConfig({ key, direction });
   };
 
-  // Function to change participant status
-  const changeParticipantStatus = async (userId, newStatus) => {
-    try {
-      const response = await fetch(`http://localhost:3000/run/${runId}/participants/${userId}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+const changeParticipantStatus = async (userId, newStatus) => {
+  try {
+    const response = await fetch(`http://localhost:3000/run/${runId}/user/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: newStatus }),
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to update participant status');
-      }
-
-      // Update local state to reflect the change
-      setParticipants(participants.map(participant => 
-        participant.id === userId ? { ...participant, status: newStatus } : participant
-      ));
-    } catch (err) {
-      console.error('Error updating participant status:', err);
-      alert('Failed to update participant status. Please try again.');
+    if (!response.ok) {
+      throw new Error('Failed to update participant status');
     }
-  };
+
+    // Update local state to reflect the change
+    setParticipants(prevParticipants => {
+      // Check if participants is structured with a participants array
+      if (prevParticipants && Array.isArray(prevParticipants.participants)) {
+        return {
+          ...prevParticipants,
+          participants: prevParticipants.participants.map(participant => 
+            participant.user_id === userId 
+              ? { 
+                  ...participant, 
+                  user_run_status: newStatus,
+                  updated_at: new Date().toISOString() 
+                } 
+              : participant
+          )
+        };
+      }
+      // Fallback if structure is different
+      return prevParticipants;
+    });
+  } catch (err) {
+    console.error('Error updating participant status:', err);
+    alert('Failed to update participant status. Please try again.');
+  }
+};
 
   // Temporarily removing filtering logic due to error
   let sortedParticipants = [];
@@ -121,18 +137,26 @@ function RunParticipants() {
     }
   }
 
-  const totalParticipants = Array.isArray(participants?.participants) ? 
-  participants.participants.length : 0;
+  const calculates = useCallback(() => {
+    if (!participants || !Array.isArray(participants.participants)) {
+      return {
+        total: 0,
+        accepted: 0,
+        pending: 0,
+        rejected: 0
+      };
+    }
 
-const acceptedCount = Array.isArray(participants?.participants) ? 
-  participants.participants.filter(p => p?.status === 'accepted').length : 0;
+    return {
+      total: participants.participants.length,
+      accepted: participants.participants.filter(p => p.user_run_status === 'accepted').length,
+      pending: participants.participants.filter(p => p.user_run_status === 'pending').length,
+      rejected: participants.participants.filter(p => p.user_run_status === 'rejected').length
+    };
+  }, [participants]);
 
-const pendingCount = Array.isArray(participants?.participants) ? 
-  participants.participants.filter(p => p?.status === 'pending').length : 0;
-
-const rejectedCount = Array.isArray(participants?.participants) ? 
-  participants.participants.filter(p => p?.status === 'rejected').length : 0;
-
+  // Get current s
+  const { total, accepted, pending, rejected } = calculates();
 
   if (loading) {
     return <Loading loadingInfo={"Run Details"} />
@@ -186,7 +210,7 @@ const rejectedCount = Array.isArray(participants?.participants) ?
             </div>
             <div className="stat-info">
               <h3>Accepted</h3>
-              <p className="stat-number">{acceptedCount}</p>
+              <p className="stat-number">{accepted}</p>
             </div>
           </div>
           <div className="stat-card">
@@ -195,7 +219,7 @@ const rejectedCount = Array.isArray(participants?.participants) ?
             </div>
             <div className="stat-info">
               <h3>Pending</h3>
-              <p className="stat-number">{pendingCount}</p>
+              <p className="stat-number">{pending}</p>
             </div>
           </div>
           <div className="stat-card">
@@ -204,7 +228,7 @@ const rejectedCount = Array.isArray(participants?.participants) ?
             </div>
             <div className="stat-info">
               <h3>Rejected</h3>
-              <p className="stat-number">{rejectedCount}</p>
+              <p className="stat-number">{rejected}</p>
             </div>
           </div>
           <div className="stat-card">
@@ -213,7 +237,7 @@ const rejectedCount = Array.isArray(participants?.participants) ?
             </div>
             <div className='stat-info'> 
               <h3>Total Participants</h3>
-              <p className='stat-number'> {totalParticipants} </p>
+              <p className='stat-number'> {total} </p>
             </div>
           
           </div>
@@ -330,10 +354,10 @@ const rejectedCount = Array.isArray(participants?.participants) ?
                     
                     <td>
                       <div className='actions-div'>
-                        <button className='acc-btn'>
+                        <button className='acc-btn' onClick={() => changeParticipantStatus(participant.user_id, 'accepted')}>
                           Accept
                           <svg 
-                            className="info-icon" 
+                            className="info-icon actions" 
                             xmlns="http://www.w3.org/2000/svg" 
                             width="14" 
                             height="14" 
@@ -347,10 +371,10 @@ const rejectedCount = Array.isArray(participants?.participants) ?
                             <path d="M20 6L9 17l-5-5" />
                           </svg>
                         </button>
-                        <button className='dec-btn'>
-                          Decline
+                        <button className='dec-btn' onClick={() =>changeParticipantStatus(participant.user_id, 'rejected')}>
+                          Reject
                           <svg 
-                            className="info-icon" 
+                            className="info-icon actions" 
                             xmlns="http://www.w3.org/2000/svg" 
                             width="14" 
                             height="14" 

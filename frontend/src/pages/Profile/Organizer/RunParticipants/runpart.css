@@ -134,6 +134,9 @@
   .info-icon{
     color: var(--text-dark);
   }
+  .actions {
+    color: var(--text-dark) !important;
+  }
 
   .gender-participant{
     font-size: 1rem;

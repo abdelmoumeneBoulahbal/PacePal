@@ -13,6 +13,7 @@ const getRunParticipants = async (runId) => {
     const query = `
       SELECT 
         
+        u.user_id,
         u.first_name, 
         u.last_name,
         u.username,
