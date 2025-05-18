@@ -404,6 +404,7 @@
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  background-color: #0077CC;
 }
 
 .participant-info {
@@ -509,17 +510,19 @@
   padding: 16px 24px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 16px;
   border-top: 1px solid var(--border-color);
 }
 
-.cancel-btn {
+.modal-footer .cancel-btn {
   padding: 10px 20px;
-  border: 2px solid var(--border-color);
+
   border-radius: 8px;
   background-color: white;
-  color: var(--black) !important;
+  color: var(--text-dark) !important;
   font-weight: 600;
+  width: 70px !important;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -529,9 +532,9 @@
   color: var(--text-dark);
 }
 
-.confirm-btn {
+.confirm-btn, .cancel-btn {
   padding: 10px 20px;
-  background: var(--gradient-primary);
+  background-color: var(--black);
   color: white;
   border: none;
   border-radius: 8px;
@@ -590,4 +593,27 @@
     align-items: center;
   }
 }
+.no-participants{
+  font-weight: bold !important;
+  font-size: 1rem;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
 
+.loading-message{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+  margin-top: 2rem;
+
+  font-weight: bold;
+  font-size: 1rem;
+}
+.loading-message img{
+  width: 64px;
+}

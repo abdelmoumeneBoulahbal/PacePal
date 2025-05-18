@@ -38,9 +38,15 @@ function Profile() {
     }
   }, [])
 
+  useEffect(() => {
+    localStorage.setItem('userId', id);
+    console.log('Stored userId:', id);
+  }, [id]);
+
   const fetchUserData = async(userId) => {
     setLoading(true)
     console.log(userId)
+
     try{
       const response = await fetch(`http://localhost:3000/users/profile/${userId}`, {
         method: 'GET',
@@ -95,7 +101,7 @@ function Profile() {
         </div>     
         </section>
       ) : (
-        <p>Loading user data...</p>
+        <Loading loadingInfo={'Your Profile'}/>
       )}
     </>
   );

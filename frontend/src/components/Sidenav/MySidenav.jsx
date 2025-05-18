@@ -6,6 +6,7 @@ import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
 import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import HistoryIcon from '@rsuite/icons/History';
 import OffRoundIcon from '@rsuite/icons/OffRound';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Leader from '../../assets/icons/leader (2).png'
 import Runner from '../../assets/icons/running (2).png'
 
@@ -19,7 +20,7 @@ function MySidenav({ userData, onLogout }) {
     const [activeKey, setActiveKey] = useState('1');
     
     return (
-        <div style={{ width: 250, height: '100%', background: '#f8f9fa'}} className='sidenav-container'>
+        <div style={{ width: 300, height: '100%', background: '#f8f9fa'}} className='sidenav-container'>
         
           <Sidenav  defaultOpenKeys={['3', '4']}>
             <div className='pfp-container'>
@@ -27,8 +28,11 @@ function MySidenav({ userData, onLogout }) {
                   
                 </div>
                 <div className='un-div'>
-                  <h3> {userData.username} </h3>
-                  <h4>title</h4>
+                  <h3 style={{
+                    fontWeight:'400',
+                    fontSize:'1rem'
+                  }}> {userData.first_name}</h3>
+                  <h4><b>@{userData.username}</b></h4>
                 </div>
             </div>
 
@@ -39,6 +43,12 @@ function MySidenav({ userData, onLogout }) {
                 <Nav.Item eventKey="1" icon={<DashboardIcon />} >
                   Dashboard
                 </Nav.Item>
+                <Nav.Item eventKey="2" 
+                onClick={()=> navigate('/user/organizer/create')}
+                icon={ <AddOutlineIcon/> }>
+                  Create a New Run
+                </Nav.Item>
+                
                 <Nav.Menu eventKey="2" title="History" icon={<HistoryIcon />}>
                   <Nav.Item   onClick={() => navigate('/user/profile/organizer/runCreated', 
                               { state: { userId: userData.user_id } })} 

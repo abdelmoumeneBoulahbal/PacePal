@@ -1,127 +1,265 @@
-import React, { useState } from 'react';
-import { User, Calendar, Clock, Users, Activity, Map, Award, MapPin, Heart, Shield, ChevronLeft } from 'lucide-react';
-import './dtsRun.css'; // We'll create this CSS file
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { User, Calendar, Clock, Users, Activity, Map, Award, MapPin, ChevronLeft } from 'lucide-react';
+import './dtsRun.css';
+import Loading from '../../../components/Loading/Loading';
 
-function DetailsRun() {
-  // State for showing/hiding the confirmation modal
+import runnerGif from '../../../assets/icons/running.gif'
+
+import MapGif from '../../../assets/icons/maps.gif'
+
+function DetailsRun({ isOrganizer = false }) {
+  const [runData, setRunData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [creatorData, setCreatorData] = useState(null);
+
+  const [userId, setUserId] = useState(null);
+
+  const [isJoining, setIsJoining] = useState(false);
+
+  const [participants, setParticipants] = useState([]);
+  const [loadingParticipants, setLoadingParticipants] = useState(false);
+
+  const [error, setError] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-
   const navigate = useNavigate();
 
-  // Sample run data
-  const runData = {
-    id: 1,
-    title: 'Morning Run',
-    createdBy: {
-      username: 'runner1',
-      name: 'Ahmed Bensaïd',
-      memberSince: '2023-05-15',
-      title: 'Running Enthusiast',
-      runsCreated: 24,
-      profilePic: '/api/placeholder/50/50'
-    },
-    location: 'Jardin d\'Essai du Hamma, Algiers',
-    mapLink: 'https://goo.gl/maps/123456',
-    date: '2025-04-26',
-    time: '08:00',
-    duration: '45 mins',
-    difficulty: 'Medium',
-    ageRange: '26-35',
-    gender: 'Mixed',
-    participants: [
-      { username: 'mountainRunner', name: 'Karim Farès', age: 28, profilePic: '/api/placeholder/40/40' },
-      { username: 'fitnessLover', name: 'Sarah Khalil', age: 32, profilePic: '/api/placeholder/40/40' },
-      { username: 'marathonPro', name: 'Leila Ziani', age: 29, profilePic: '/api/placeholder/40/40' },
-      { username: 'trailblazer', name: 'Omar Benali', age: 34, profilePic: '/api/placeholder/40/40' },
-      { username: 'desertTrekker', name: 'Amina Hadj', age: 27, profilePic: '/api/placeholder/40/40' }
-    ],
-    speed: '10 km/h',
-    trackInfo: 'Park trail with slight elevation',
-    zone: 'Zone 2',
-    description: 'A refreshing morning run through the beautiful Jardin d\'Essai. We\'ll follow the main path and enjoy the scenic views of flora. Suitable for intermediate runners who want to improve their endurance while enjoying nature.'
+  const { state } = useLocation()
+
+  const runId = state.runId
+  const organizerId = state.creatorId
+
+  console.log(runId, organizerId)
+
+    const calculateAge = (birthDate) => {
+    if (!birthDate) return 'N/A';
+    const today = new Date();
+    const birthDateObj = new Date(birthDate);
+    let age = today.getFullYear() - birthDateObj.getFullYear();
+    const monthDiff = today.getMonth() - birthDateObj.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate())) {
+      age--;
+    }
+    return age;
   };
 
-  // Toggle confirmation modal
-  const toggleConfirmation = () => {
-    setShowConfirmation(!showConfirmation);
-  };
 
-  // Handle join run action
-  const handleJoinRun = () => {
-    // Here you would add logic to join the run
-    setShowConfirmation(false);
-    // Show some success message or update UI accordingly
-    alert('You have successfully joined the run!');
-  };
+   useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+      console.log('Retrieved userId:', storedUserId);
+    } else {
+      console.log('No userId found in localStorage');
+    }
+  }, []);
+
+
+  useEffect(() => {
+    const fetchRunData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/run/runDetails/${runId}`);
+        if (!response.ok) throw new Error('Failed to fetch run data');
+        const data = await response.json();
+        setRunData(data.run[0]);
+
+        console.log(runData)
+        
+        const creatorResponse = await fetch(`http://localhost:3000/users/profile/${organizerId}`);
+        if (!creatorResponse.ok) throw new Error('Failed to fetch creator data');
+        const creatorJson = await creatorResponse.json();
+        console.log(creatorJson)
+        setCreatorData(creatorJson);
+
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRunData();
+  }, [runId]);
+
+    useEffect(() => {
+    const fetchParticipants = async () => {
+      try {
+        setLoadingParticipants(true);
+        
+        // 1. Fetch participant IDs for this run
+        const participantsResponse = await fetch(
+          `http://localhost:3000/run/runDetails/runParticipants/${runId}`
+        );
+        
+        if (!participantsResponse.ok) {
+          throw new Error('Failed to fetch participants');
+        }
+        
+        const data = await participantsResponse.json();
+        console.log('Participants data:', data);
+
+        // 2. Format the participants data
+        const formattedParticipants = data.participants.map(participant => ({
+          id: participant.id || `${participant.username}_${participant.email}`,
+          profilePic: participant.profile_pic || '/default-profile.png',
+          name: `${participant.first_name} ${participant.last_name}`,
+          username: participant.username,
+          age: calculateAge(participant.birth_date),
+          email: participant.email,
+          // Include any other fields you need
+        }));
+
+        
+        setParticipants(formattedParticipants);
+
+        console.log('Participants Ids : ',formattedParticipants)
+      } catch (error) {
+        console.error('Error fetching participants:', error);
+      } finally {
+        setLoadingParticipants(false);
+      }
+    };
+
+    if (runId) {
+      fetchParticipants();
+    }
+  }, [runId]);
+
+const handleJoinRun = async () => {
+  // Check if user is logged in
+  if (!userId) {
+    alert('Please log in to join this run');
+    return;
+  }
+
+  // Set loading state
+  setShowConfirmation(false);
+  setIsJoining(true);
+
+  try {
+    const response = await fetch(`http://localhost:3000/run/join`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // Add if using JWT
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        run_id: runId
+      })
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || 'Failed to join run');
+    }
+
+    const participantsResponse = await fetch(
+      `http://localhost:3000/run/runDetails/runParticipants/${runId}`
+    );
+    const participantsData = await participantsResponse.json();
+    
+    const formattedParticipants = participantsData.participants.map(participant => ({
+      id: participant.id || `${participant.username}_${participant.email}`,
+      profilePic: participant.profile_pic || '/default-profile.png',
+      name: `${participant.first_name} ${participant.last_name}`,
+      username: participant.username,
+      age: calculateAge(participant.birth_date),
+    }));
+
+    setParticipants(formattedParticipants);
+
+    alert('Successfully joined the run!');
+
+  } catch (err) {
+    console.error('Join run error:', err);
+    alert(err.message || 'Failed to join run');
+  } finally {
+    setIsJoining(false);
+  }
+};
+
+  if (loading) return <Loading loadingInfo={'Run Details'}/>;
+  if (error) return <div className="error">Error: {error}</div>;
+  if (!runData) return <div className="error">No run data found</div>;
 
   return (
     <div className="run-details-container">
-      {/* Back Navigation */}
       <div className="back-navigation">
         <button onClick={() => navigate(-1)} className="back-button">
           <ChevronLeft size={20} />
-          <span>Back to Search</span>
+          <span>Back to {isOrganizer ? 'Dashboard' : 'Search'}</span>
         </button>
       </div>
-      
-      {/* Page Title */}
+
       <h1 className="page-title">Run Details</h1>
-      
-      {/* Main Content */}
+
       <div className="details-content">
-        {/* Run Header */}
         <div className="run-header">
-          <h2 className="run-title-detail">{runData.title}</h2>
-          <button className="join-run-btn" onClick={toggleConfirmation}>
-            JOIN THIS RUN
-          </button>
+          <h2 className="run-title-detail">{runData.run_title}</h2>
+          {!isOrganizer && (
+            <button className="join-run-btn" onClick={() => setShowConfirmation(true)}>
+              JOIN THIS RUN
+            </button>
+          )}
         </div>
-        
+
         {/* Run Creator Info */}
         <div className="creator-card">
           <div className="creator-header">
             <h3>Created By</h3>
           </div>
-          <div className="creator-content">
-            <div className="creator-profile">
-              <img 
-                src={runData.createdBy.profilePic} 
-                alt={runData.createdBy.name} 
-                className="creator-pic"
-              />
-              <div className="creator-info">
-                <h4>{runData.createdBy.name}</h4>
-                <p className="username">@{runData.createdBy.username}</p>
-                <p className="creator-title">{runData.createdBy.title}</p>
-              </div>
-            </div>
-            <div className="creator-stats">
-              <div className="stat-item">
-                <span className="stat-label">Member Since</span>
-                <span className="stat-value">{new Date(runData.createdBy.memberSince).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-label">Runs Created</span>
-                <span className="stat-value">{runData.createdBy.runsCreated}</span>
-              </div>
-            </div>
+           <div className="creator-content">
+            {creatorData ? (
+              <>
+                <div className="creator-profile">
+                  <img 
+                    src={creatorData.profile_pic || "/default-profile.png"} 
+                    alt={`${creatorData.first_name || ''} ${creatorData.last_name || ''}`}
+                    className="creator-pic"
+                  />
+                  <div className="creator-info">
+                    <h4>{creatorData.first_name} {creatorData.last_name}</h4>
+                    <p className="username">@{creatorData.username}</p>
+                    {creatorData.title && <p className="creator-title">{creatorData.title}</p>}
+                  </div>
+                </div>
+                <div className="creator-stats">
+                  <div className="stat-item">
+                    <span className="stat-label">Member Since</span>
+                    <span className="stat-value">
+                       {creatorData?.created_at ? (
+                        new Date(creatorData.created_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })
+                      ) : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-label">Runs Created</span>
+                    <span className="stat-value">{creatorData.runs_created}</span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="no-creator">Creator information not available</div>
+            )}
           </div>
         </div>
-        
-        {/* Run Details Grid */}
+
+        {/* Run Information Section */}
         <div className="details-grid">
-          {/* Description */}
           <div className="details-card description-card">
-            <h3>Description</h3>
-            <p>{runData.description}</p>
+            <h3>Description & Additional Meeting Info</h3>
+
+            <p>{runData.description || 'No description provided'}</p>
+            <p> {runData.additional_location_info} </p>
           </div>
-          
-          {/* Run Information */}
+
           <div className="details-card info-card">
             <h3>Run Information</h3>
             <div className="info-grid">
@@ -131,35 +269,75 @@ function DetailsRun() {
                 </div>
                 <div className="info-content">
                   <span className="info-label">Date</span>
-                  <span className="info-value">{new Date(runData.date).toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}</span>
+                  <span className="info-value">
+                    {new Date(runData.date).toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </span>
                 </div>
               </div>
-              
+
               <div className="info-item">
                 <div className="info-icon-wrapper">
                   <Clock size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Time</span>
-                  <span className="info-value">{runData.time}</span>
+                  <span className="info-value">
+                    {runData.start_time}
+                  </span>
                 </div>
               </div>
-              
+
+              <div className="info-item">
+                <div className="info-icon-wrapper">
+                  <Clock size={20} />
+                </div>
+                <div className="info-content">
+                  <span className="info-label">Max Participants</span>
+                  <span className="info-value">
+                    {runData.max_people}
+                  </span>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-icon-wrapper">
+                  <User size={20} />
+                </div>
+                <div className="info-content">
+                  <span className="info-label">Gender</span>
+                  <span className="info-value">
+                    {runData.gender}
+                  </span>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <div className="info-icon-wrapper">
+                  <Clock size={20} />
+                </div>
+                <div className="info-content">
+                  <span className="info-label">Status</span>
+                  <span className= {`status-badge ${runData.status.toLowerCase()}`}>
+                    {runData.status}
+                  </span>
+                </div>
+              </div>
+
               <div className="info-item">
                 <div className="info-icon-wrapper">
                   <Activity size={20} />
                 </div>
                 <div className="info-content">
-                  <span className="info-label">Duration</span>
-                  <span className="info-value">{runData.duration}</span>
+                  <span className="info-label">Distance</span>
+                  <span className="info-value">{runData.distance || 'N/A'}</span>
                 </div>
               </div>
-              
+
               <div className="info-item">
                 <div className="info-icon-wrapper">
                   <Award size={20} />
@@ -171,40 +349,19 @@ function DetailsRun() {
                   </span>
                 </div>
               </div>
-              
-              <div className="info-item">
-                <div className="info-icon-wrapper">
-                  <Users size={20} />
-                </div>
-                <div className="info-content">
-                  <span className="info-label">Age Range</span>
-                  <span className="info-value">{runData.ageRange}</span>
-                </div>
-              </div>
-              
+
               <div className="info-item">
                 <div className="info-icon-wrapper">
                   <Activity size={20} />
                 </div>
                 <div className="info-content">
                   <span className="info-label">Average Speed</span>
-                  <span className="info-value">{runData.speed}</span>
-                </div>
-              </div>
-              
-              <div className="info-item">
-                <div className="info-icon-wrapper">
-                  <Map size={20} />
-                </div>
-                <div className="info-content">
-                  <span className="info-label">Run Track</span>
-                  <span className="info-value">{runData.trackInfo}</span>
+                  <span className="info-value">{runData.average_speed || 'N/A'} km/h</span>
                 </div>
               </div>
             </div>
           </div>
-          
-          {/* Location */}
+
           <div className="details-card location-card">
             <h3>Location</h3>
             <div className="location-content">
@@ -212,25 +369,45 @@ function DetailsRun() {
                 <MapPin size={20} />
                 <p>{runData.location}</p>
               </div>
+              <img src={MapGif}
+                style={{
+                  width:'100px'
+                }}
+                alt="MapGif" />
               <div className="map-placeholder">
-                <img src="/api/placeholder/400/200" alt="Map location" className="map-image" />
-                <a href={runData.mapLink} className="map-link" target="_blank" rel="noopener noreferrer">
+                <a 
+                  href={`https://maps.google.com/?q=${runData.location}`} 
+                  className="map-link" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
                   View on Google Maps
                 </a>
               </div>
             </div>
           </div>
+
+         {/* Participants */}
+        <div className="details-card participants-card">
+          <h3>Participants ({participants.length})</h3>
           
-          {/* Participants */}
-          <div className="details-card participants-card">
-            <h3>Participants ({runData.participants.length})</h3>
+          {loadingParticipants ? (
+            <div className="loading-message">
+              <img src={runnerGif} alt="" />
+              Loading participants...
+              </div>
+          ) : participants.length === 0 ? (
+            <div className="no-participants">No participants yet</div>
+          ) : (
             <div className="participants-list">
-              {runData.participants.map((participant, index) => (
-                <div key={index} className="participant-item">
+              {participants.map((participant) => (
+                <div key={participant.id} className="participant-item">
                   <img 
-                    src={participant.profilePic} 
                     alt={participant.name} 
                     className="participant-pic" 
+                    onError={(e) => {
+                      e.target.src = '/default-profile.png';
+                    }}
                   />
                   <div className="participant-info">
                     <p className="participant-name">{participant.name}</p>
@@ -240,11 +417,14 @@ function DetailsRun() {
                 </div>
               ))}
             </div>
-          </div>
+          )}
+        </div>
+
+
         </div>
       </div>
-      
-      {/* Confirmation Modal */}
+
+      {/* Join Confirmation Modal */}
       {showConfirmation && (
         <div className="modal-overlay">
           <div className="confirmation-modal">
@@ -252,8 +432,7 @@ function DetailsRun() {
               <h3>Join Run Confirmation</h3>
             </div>
             <div className="modal-body">
-              <p>Are you sure you want to join the <strong>{runData.title}</strong>?</p>
-              <p>This run will be added to your calendar and the creator will be notified.</p>
+              <p>Are you sure you want to join "<strong>{runData.run_title}</strong>"?</p>
               <div className="run-quick-info">
                 <div className="quick-info-item">
                   <Calendar size={16} />
@@ -261,7 +440,7 @@ function DetailsRun() {
                 </div>
                 <div className="quick-info-item">
                   <Clock size={16} />
-                  <span>{runData.time}</span>
+                  <span>{new Date(runData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
                 <div className="quick-info-item">
                   <MapPin size={16} />
@@ -270,8 +449,14 @@ function DetailsRun() {
               </div>
             </div>
             <div className="modal-footer">
-              <button className="cancel-btn" onClick={toggleConfirmation}>Cancel</button>
-              <button className="confirm-btn" onClick={handleJoinRun}>Confirm</button>
+              <button className="cancel-btn"
+
+              onClick={() => setShowConfirmation(false)}>
+                Cancel
+              </button>
+              <button className="confirm-btn" onClick={handleJoinRun} disabled={isJoining || participants.some(p => p.id === userId)}>
+                {isJoining ? 'Joining...' : 'Join Run'}
+              </button>
             </div>
           </div>
         </div>

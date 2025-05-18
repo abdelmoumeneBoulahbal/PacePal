@@ -132,7 +132,7 @@
     background-color: var(--primary-color);
   }
   .info-icon{
-    color: var(--text-dark) !important;
+    color: var(--text-dark);
   }
 
   .gender-participant{

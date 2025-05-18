@@ -366,7 +366,6 @@
     border-bottom: 1px solid var(--border-color);
     color: var(--text-medium);
     font-size: 14px;
-    vertical-align: middle;
   }
   
   .results-table .result-row {
@@ -661,4 +660,17 @@
     .find-run-btn {
       align-self: flex-start;
     }
+  }
+
+  .run-info{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    gap: 1rem !important;
+    font-weight: light !important;
+  }
+  .run-info div{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
   }

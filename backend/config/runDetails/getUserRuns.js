@@ -16,7 +16,8 @@ const getUserRuns = async (userId) => {
         const query = `
         SELECT
 
-            fk_run_id
+            fk_run_id,
+            user_run_status
 
         FROM run_participants
         WHERE fk_user_id = $1`; 

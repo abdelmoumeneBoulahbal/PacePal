@@ -1,6 +1,8 @@
 import { loginUser } from "./login.js";
 import { signup } from "./signup.js";
 import { getUserData } from "./getUserData.js";
+import { joinRun } from "./joinRun.js";
+
 
 
 const createUser = async (req, res) => {
@@ -38,8 +40,43 @@ const getUserProfile = async (req,res) => {
   }
 }
 
+
+
+const handleJoinRun = async (req, res) => {
+  const { run_id, user_id } = req.body;
+  
+  try {
+
+    if (!run_id || !user_id) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Both run_id and user_id are required'
+      });
+    }
+    
+    // Execute the join operation
+    const result = await joinRun(run_id, user_id);
+    
+    res.status(201).json({
+      success: true,
+      data: result
+    });
+    
+  } catch (error) {
+    console.error('Error joining run:', error);
+    
+    const statusCode = error.message.includes('already joined') ? 409 : 500;
+    
+    res.status(statusCode).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
 export {
     createUser,
     getUserProfile,
-    logUser
+    logUser,
+    handleJoinRun
 }

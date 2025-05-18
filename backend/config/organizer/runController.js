@@ -4,6 +4,7 @@ import { getCreatedRunsList } from "./getRunList.js";
 import { getRunParticipants } from "../runDetails/getRunParticipants.js";
 import { getUserRuns } from "../runDetails/getUserRuns.js";
 import { updateStatus } from "./updateStatus.js";
+import { getAllRuns } from "../runDetails/getAllRuns.js";
 
 const createRunController = async(req, res) => {
     const {userId} = req.params
@@ -162,11 +163,31 @@ const handleStatusUpdate = async (req, res)=> {
     }
 }
 
+const handleAllRuns = async (req, res) => {
+    try {
+        const runs = await getAllRuns();
+
+        res.status(200).json({
+            success: true,
+            count: runs.length,
+            data: runs
+        });
+    } catch (err) {
+        console.error('Error in handleAllRuns:', err);
+        res.status(500).json({
+            success: false,
+            error: 'Server Error',
+            message: err.message
+        });
+    }
+}
+
 export { createRunController,
          getCreatedRunsController,
          getRunsDetails,
          getRunParticipantsController,
          getAllUserRunsController,
 
-         handleStatusUpdate
+         handleStatusUpdate,
+         handleAllRuns
         }

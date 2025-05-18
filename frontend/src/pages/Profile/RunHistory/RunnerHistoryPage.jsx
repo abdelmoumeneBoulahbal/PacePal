@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, X, AlertCircle, CheckCircle, Info } from 'lucide-react';
 import { getRunIcon } from '../../../utils/RunIcons';
 import './runHisPage.css'
 import Loading from '../../../components/Loading/Loading';
@@ -10,128 +10,151 @@ function RunnerHistoryPage() {
   const location = useLocation();
   const userId = location.state?.userId;
   console.log(userId)
-  
+
+  const [runIdsData, setRunIdsData] = useState([])
+  const [userRunStatuses, setUserRunStatuses] = useState({});
   const [participatedRuns, setParticipatedRuns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [runsPerPage] = useState(6);
+  
+  // Alert state
+  const [alert, setAlert] = useState({
+    show: false,
+    message: '',
+    type: 'info' // 'success', 'error', 'info', 'warning'
+  });
 
-const completedRuns = participatedRuns.filter(run => run.status === "completed").length;
-const cancelledRuns = participatedRuns.filter(run => run.status === "cancelled").length;
-const upcomingRuns = participatedRuns.filter(run => run.status === "upcoming").length;
-const rejectedRuns = participatedRuns.filter(run => run.status === "rejected").length;
+  const completedRuns = participatedRuns.filter(run => run.status === "completed").length;
+  const cancelledRuns = participatedRuns.filter(run => run.status === "cancelled").length;
+  const upcomingRuns = participatedRuns.filter(run => run.status === "upcoming").length;
+  const rejectedRuns = participatedRuns.filter(run => run.status === "rejected").length;
 
-const totalDistance = participatedRuns
-  .filter(run => run.status.toLowerCase() === "completed")
-  .reduce((sum, run) => sum + parseFloat(run.distance), 0);
+  const totalDistance = participatedRuns
+    .filter(run => run.status.toLowerCase() === "completed")
+    .reduce((sum, run) => sum + parseFloat(run.distance), 0);
+
+  // Function to show alert messages
+  const showAlert = (message, type = 'info') => {
+    setAlert({
+      show: true,
+      message,
+      type
+    });
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+      setAlert(prev => ({...prev, show: false}));
+    }, 5000);
+  };
 
   useEffect(() => {
-    const fetchRunData = async () => {
-      try {
-        setIsLoading(true);
-        
-        // Check if userId is available
-        if (!userId) {
-          throw new Error('User ID not provided');
-        }
-        
-        // First fetch to get all run IDs the user has joined
-        const runIdsResponse = await fetch(`http://localhost:3000/users/profile/history/${userId}`);
-        
-        if (!runIdsResponse.ok) {
-          throw new Error('Failed to fetch user run history');
-        }
-        
-        let runIdsData = await runIdsResponse.json();
-        console.log("Raw Run IDs data:", runIdsData);
-        
-        const runIds = runIdsData.runs.map(run => run.fk_run_id)
-        console.log('Extracted Run IDs: ', runIds)
+  const fetchRunData = async () => {
+    try {
+      setIsLoading(true);
+      
+      if (!userId) {
+        throw new Error('User ID not provided');
+      }
+      
+      // First fetch to get all run IDs and user statuses
+      const runIdsResponse = await fetch(`http://localhost:3000/users/profile/history/${userId}`);
+      
+      if (!runIdsResponse.ok) {
+        throw new Error('Failed to fetch user run history');
+      }
+      
+      const runIdsData = await runIdsResponse.json();
+      setRunIdsData(runIdsData);
 
-        const runDetailsPromises = runIds.map(runId => {
-          console.log("Fetching details for run ID:", runId);
-          return fetch(`http://localhost:3000/run/runDetails/${runId}`)
-            .then(response => {
-              if (!response.ok) {
-                console.error(`Failed to fetch details for run ${runId}: ${response.status}`);
-                throw new Error(`Failed to fetch details for run ${runId}`);
-              }
-              console.log(`Successfully fetched run ${runId}`);
-              return response.json();
-            })
-            .catch(err => {
-              console.error(`Error processing run ${runId}:`, err);
-              throw err;
-            });
-        });
-        
-        try {
-          const runDetailsData = await Promise.all(runDetailsPromises);
-          console.log("Run details fetched successfully:", runDetailsData);
-          
-           const flattenedRuns = runDetailsData
-        .filter(item => item?.success && item?.run?.[0]) // Filter valid runs
+      // Create a mapping of run IDs to user statuses
+      const runStatusMap = {};
+      runIdsData.runs.forEach(run => {
+        runStatusMap[run.fk_run_id] = run.user_run_status;
+      });
+
+      const runIds = runIdsData.runs.map(run => run.fk_run_id);
+      
+      // Fetch details for all runs
+      const runDetailsPromises = runIds.map(runId => {
+        return fetch(`http://localhost:3000/run/runDetails/${runId}`)
+          .then(response => {
+            if (!response.ok) throw new Error(`Failed to fetch details for run ${runId}`);
+            return response.json();
+          });
+      });
+      
+      const runDetailsData = await Promise.all(runDetailsPromises);
+      
+      // Combine the data
+      const flattenedRuns = runDetailsData
+        .filter(item => item?.success && item?.run?.[0])
         .map(item => {
           const originalRun = item.run[0];
           return {
-            // Core identifiers
-            id: originalRun.fk_run_id,
-            
-            // Basic info
+            id: originalRun.run_id,
             title: originalRun.run_title,
             description: originalRun.description,
             location: originalRun.location,
             additionalLocationInfo: originalRun.additional_location_info,
             googleMapsLink: originalRun.google_maps_link,
-            
-            // Run specifications
             type: originalRun.run_type,
             difficulty: originalRun.difficulty,
-            distance: `${parseInt(originalRun.distance)/1000} km`, // Convert meters to km
+            distance: `${parseInt(originalRun.distance)/1000} km`,
             duration: originalRun.duration,
             trackName: originalRun.track_name,
-            
-            // Timing
             date: new Date(originalRun.date).toLocaleDateString(),
             startTime: originalRun.start_time,
             createdAt: originalRun.created_at,
-            
-            // Participants
             maxPeople: originalRun.max_people,
             currentParticipants: originalRun.nmb_participants,
             ageRange: originalRun.age_range,
             gender: originalRun.gender,
-            
-            // Performance metrics (for completed runs)
             averageSpeed: originalRun.average_speed,
-            
-            // Organizer
             organizerId: originalRun.creator_id,
-            
-            // Status
             status: originalRun.status,
+            user_run_status: runStatusMap[originalRun.run_id], // Get status from our map
             icon: getRunIcon(originalRun.run_type)
-            
-            // Add any other fields you need...
           };
         });
 
       setParticipatedRuns(flattenedRuns);
       setIsLoading(false);
+      
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err.message);
+      setIsLoading(false);
+      showAlert(`Error: ${err.message}`, 'error');
+    }
+  };
 
-        } catch (detailsError) {
-          console.error('Error fetching run details:', detailsError);
-          setError(`${detailsError.message}. Please try again later.`);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.error('Error fetching run data:', err);
-        setError(err.message);
-        setIsLoading(false);
-      }
-    };
+  fetchRunData();
+}, [userId]);
 
-    fetchRunData();
-  }, [userId]);
+
+  // Calculate pagination values
+  const indexOfLastRun = currentPage * runsPerPage;
+  const indexOfFirstRun = indexOfLastRun - runsPerPage;
+  const currentRuns = participatedRuns.slice(indexOfFirstRun, indexOfLastRun);
+  const totalPages = Math.ceil(participatedRuns.length / runsPerPage);
+
+  // Change page handlers
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      showAlert(`Viewing page ${currentPage + 1} of ${totalPages}`, 'info');
+    }
+  };
+  
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      showAlert(`Viewing page ${currentPage - 1} of ${totalPages}`, 'info');
+    }
+  };
 
   if (isLoading) {
     return <Loading loadingInfo={'Your Running History'} />
@@ -142,13 +165,39 @@ const totalDistance = participatedRuns
       <div className="error-container">
         <h2>Error loading data</h2>
         <p>{error}</p>
-        <button onClick={() => window.location.reload()} className="retry-btn">Retry</button>
+        <button 
+          onClick={() => {
+            window.location.reload();
+            showAlert('Retrying to load data...', 'info');
+          }} 
+          className="retry-btn"
+        >
+          Retry
+        </button>
       </div>
     );
   }
 
   return (
     <div className="runner-history-container">
+      {/* Alert Message Component */}
+      {alert.show && (
+        <div className={`alert-container alert-${alert.type}`}>
+          <div className="alert-icon">
+            {alert.type === 'success' && <CheckCircle size={20} />}
+            {alert.type === 'error' && <AlertCircle size={20} />}
+            {alert.type === 'info' && <Info size={20} />}
+          </div>
+          <div className="alert-message">{alert.message}</div>
+          <button 
+            className="alert-close" 
+            onClick={() => setAlert(prev => ({...prev, show: false}))}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
       <div className="main-content">
         <div className="header-container">
           <div>
@@ -224,8 +273,16 @@ const totalDistance = participatedRuns
         {/* Search Bar */}
         <div className="search-container">
           <div className="search-bar">
-            <input type="text" className="search-input" placeholder="Search runs by title, location, or description..." />
-            <button className="search-btn">
+            <input 
+              type="text" 
+              className="search-input" 
+              placeholder="Search runs by title, location, or description..." 
+              onChange={() => showAlert('Search functionality will be available soon!', 'info')}
+            />
+            <button 
+              className="search-btn"
+              onClick={() => showAlert('Search functionality will be available soon!', 'info')}
+            >
               <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -248,12 +305,12 @@ const totalDistance = participatedRuns
                     <th>Organizer</th>
                     <th>Run Type</th>
                     <th>Participants</th>
-                    <th>Performance</th>
+                    <th>Run Info</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {participatedRuns.map(run => (
-                    <tr key={run.fk_run_id} className="result-row">
+                  {currentRuns.map(run => (
+                    <tr key={run.id} className="result-row">
                       <td className="title-cell">
                         <div className="title-wrapper">
                           <span className="run-title">{run.title}</span>
@@ -284,13 +341,12 @@ const totalDistance = participatedRuns
                         </div>
                       </td>
                       <td>
-                        <div className="info-with-icon">
-                          {run.organizerId}
+                        <div className={`status-badge ${run.user_run_status}`}>
+                          {run.user_run_status}
                         </div>
                       </td>
                       <td>
                         <div
-
                         style={{
                           display:'flex', 
                           alignItems:'center',
@@ -362,7 +418,10 @@ const totalDistance = participatedRuns
               <p>You haven't participated in any runs yet.</p>
               <button 
                 className="explore-runs-btn"
-                onClick={() => navigate('/runs', { state: { userId } })}
+                onClick={() => {
+                  navigate('/runs', { state: { userId } });
+                  showAlert('Redirecting to explore runs...', 'info');
+                }}
               >
                 Explore Runs
               </button>
@@ -371,14 +430,31 @@ const totalDistance = participatedRuns
         </div>
 
         {/* Pagination - only show if there are runs */}
-        {participatedRuns.length > 0 && (
+        {participatedRuns.length > runsPerPage && (
           <div className="pagination-container">
             <div className="pagination-info">
-              Showing <span className="pagination-bold">1-{participatedRuns.length}</span> of <span className="pagination-bold">{participatedRuns.length}</span> runs
+              Showing <span className="pagination-bold">
+                {indexOfFirstRun + 1}-{Math.min(indexOfLastRun, participatedRuns.length)}
+              </span> of <span className="pagination-bold">{participatedRuns.length}</span> runs
             </div>
             <div className="pagination-controls">
-              <button className="pagination-btn" disabled>Previous</button>
-              <button className="pagination-btn" disabled>Next</button>
+              <button 
+                className="pagination-btn" 
+                onClick={prevPage}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <span className="page-number">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button 
+                className="pagination-btn" 
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
             </div>
           </div>
         )}
