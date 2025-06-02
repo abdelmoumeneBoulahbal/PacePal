@@ -55,6 +55,8 @@ cd frontend
 npm install
 npm run dev
 
+# ⚠️ Note: An active internet connection is required to connect to the Neon database
+
 # Setup backend
 cd ../backend
 npm install
