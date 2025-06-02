@@ -5,13 +5,13 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart,
 import stopWatch from '../../../assets/icons/stopwatch.png'
 
 const data = [
-  { date: 'Dec 20', time: 2 },
-  { date: 'Dec 21', time: 3 },
-  { date: 'Dec 22', time: 2.5 },
-  { date: 'Dec 23', time: 3.2 },
-  { date: 'Dec 24', time: 4 },
-  { date: 'Dec 25', time: 4.5 },
-  { date: 'Dec 26', time: 5 },
+  { date: 'Dec 20', time: 0 },
+  { date: 'Dec 21', time: 0 },
+  { date: 'Dec 22', time: 0 },
+  { date: 'Dec 23', time: 0 },
+  { date: 'Dec 24', time: 0 },
+  { date: 'Dec 25', time: 0 },
+  { date: 'Dec 26', time: 0 },
 ];
 
 function RunTime() {
@@ -25,8 +25,8 @@ function RunTime() {
       </div>
 
       <div className="rt-main">
-        <h1>13 hr 26 min</h1>
-        <p className="rt-percentage">+8.4% <span>vs Last Week</span></p>
+        <h1> 0 hr 0 min</h1>
+        <p className="rt-percentage">+0% <span>vs Last Week</span></p>
       </div>
 
       <div className="rt-bottom">
@@ -56,8 +56,13 @@ function RunTime() {
         </ResponsiveContainer>
 
         <div className="rt-bottom-footer">
-          <span>Dec 26, 2024</span>
-          <span>209 hr 43 min Total Time</span>
+          <span>{new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: '2-digit'
+                })}</span>
+
+          <span>0 hr 0 min Total Time</span>
         </div>
       </div>
     </div>

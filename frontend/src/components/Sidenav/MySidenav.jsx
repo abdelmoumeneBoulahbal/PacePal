@@ -9,6 +9,7 @@ import OffRoundIcon from '@rsuite/icons/OffRound';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Leader from '../../assets/icons/leader (2).png'
 import Runner from '../../assets/icons/running (2).png'
+import user from '../../assets/img/user.jpg'
 
 
 import './sdnav.css'
@@ -25,7 +26,7 @@ function MySidenav({ userData, onLogout }) {
           <Sidenav  defaultOpenKeys={['3', '4']}>
             <div className='pfp-container'>
                 <div className='profile-pic'>
-                  
+                  <img src={user} alt="default-user"  />
                 </div>
                 <div className='un-div'>
                   <h3 style={{

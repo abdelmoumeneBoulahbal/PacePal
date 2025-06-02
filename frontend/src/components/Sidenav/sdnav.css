@@ -16,6 +16,10 @@
     height: 80px;
     border-radius: 50px;
 }
+.profile-pic img{
+    max-width: 80px;
+    border-radius: 50px;
+}
 
 .un-div{
     display: flex;

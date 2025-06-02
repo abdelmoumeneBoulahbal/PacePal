@@ -12,6 +12,7 @@ export const getUserData = async (userId) => {
           `SELECT
             user_id,
             first_name,
+            current_run_id,
             last_name, 
             email, 
             username, 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { User, Calendar, Clock, Users, Activity, Map, Award, MapPin, ChevronLeft } from 'lucide-react';
 import './dtsRun.css';
 import Loading from '../../../components/Loading/Loading';
@@ -86,7 +86,6 @@ function DetailsRun({ isOrganizer = false }) {
       try {
         setLoadingParticipants(true);
         
-        // 1. Fetch participant IDs for this run
         const participantsResponse = await fetch(
           `http://localhost:3000/run/runDetails/runParticipants/${runId}`
         );
@@ -98,7 +97,6 @@ function DetailsRun({ isOrganizer = false }) {
         const data = await participantsResponse.json();
         console.log('Participants data:', data);
 
-        // 2. Format the participants data
         const formattedParticipants = data.participants.map(participant => ({
           id: participant.id || `${participant.username}_${participant.email}`,
           profilePic: participant.profile_pic || '/default-profile.png',
@@ -106,7 +104,6 @@ function DetailsRun({ isOrganizer = false }) {
           username: participant.username,
           age: calculateAge(participant.birth_date),
           email: participant.email,
-          // Include any other fields you need
         }));
 
         
@@ -126,13 +123,11 @@ function DetailsRun({ isOrganizer = false }) {
   }, [runId]);
 
 const handleJoinRun = async () => {
-  // Check if user is logged in
   if (!userId) {
     alert('Please log in to join this run');
     return;
   }
 
-  // Set loading state
   setShowConfirmation(false);
   setIsJoining(true);
 
@@ -440,7 +435,7 @@ const handleJoinRun = async () => {
                 </div>
                 <div className="quick-info-item">
                   <Clock size={16} />
-                  <span>{new Date(runData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  <span>{runData.start_time.slice(0, 5)}</span>
                 </div>
                 <div className="quick-info-item">
                   <MapPin size={16} />

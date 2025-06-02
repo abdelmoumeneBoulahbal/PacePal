@@ -95,10 +95,7 @@ function Profile() {
         </div>
         <div style={{ gridArea: 'runTime' }}>
           <RunTime userData={userData} />
-        </div>
-        <div style={{ gridArea: 'runHis' }}>
-          <RunHis userData={userData} />
-        </div>     
+        </div>   
         </section>
       ) : (
         <Loading loadingInfo={'Your Profile'}/>

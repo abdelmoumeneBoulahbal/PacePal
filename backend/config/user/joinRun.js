@@ -14,7 +14,6 @@ export const joinRun = async (runId, userId) => {
   try {
     await client.query('BEGIN');
     
-    // 1. Check if user already joined
     const existingQuery = `
       SELECT participation_id FROM run_participants 
       WHERE fk_run_id = $1 AND fk_user_id = $2
@@ -24,8 +23,20 @@ export const joinRun = async (runId, userId) => {
     if (existingRes.rows.length > 0) {
       throw new Error('User already joined this run');
     }
+
+    const currentRunQuery = `
+      SELECT current_run_id FROM users WHERE user_id = $1
+    `;
+    const currentRunRes = await client.query(currentRunQuery, [userId]);
+
+    if (currentRunRes.rows.length === 0) {
+      throw new Error('User not found');
+    }
+
+    if (currentRunRes.rows[0].current_run_id) {
+      throw new Error('You can’t join more than one run at a time. Please complete or cancel the registration from your current run.');
+    }
     
-    // 2. Insert new participation
     const insertQuery = `
       INSERT INTO run_participants (fk_run_id, fk_user_id, user_run_status)
       VALUES ($1, $2, 'pending')
@@ -33,14 +44,20 @@ export const joinRun = async (runId, userId) => {
     `;
     const insertRes = await client.query(insertQuery, [runId, userId]);
     
-    // 3. Update run participant count
     const updateQuery = `
       UPDATE runs 
       SET nmb_participants = nmb_participants + 1
       WHERE run_id = $1
     `;
     await client.query(updateQuery, [runId]);
-    
+
+    const updateUserQuery = `
+      UPDATE users
+      SET current_run_id = $1
+      WHERE user_id = $2
+    `;
+    await client.query(updateUserQuery, [runId, userId]);
+
     await client.query('COMMIT');
     
     return {

@@ -7,8 +7,11 @@
     color: var(--text-dark);
 }
 .additional-text-login a:hover{
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
     cursor: pointer;
+}
+.login:hover{
+    background-color: var(--primary-light);
 }
 .additional-text-login{
     margin-top: 1rem;
