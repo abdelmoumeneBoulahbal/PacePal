@@ -1,11 +1,10 @@
 import pg from 'pg';
 const { Pool } = pg;
-import { v4 as uuidv4 } from 'uuid';  // For UUIDv4 (random)
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false // Required for Neon
+      rejectUnauthorized: false
     }
   });
 

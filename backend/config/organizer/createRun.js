@@ -1,13 +1,13 @@
 import pg from 'pg';
 const { Pool } = pg;
-import { v4 as uuidv4 } from 'uuid';  // For UUIDv4 (random)
+import { v4 as uuidv4 } from 'uuid'; 
 
 import isValidGoogleMapsLink from '../../utils/ValidateMaps.js';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false // Required for Neon
+      rejectUnauthorized: false
     }
   });
   const createRun = async (userId, runData) => {
@@ -48,7 +48,6 @@ const pool = new Pool({
         const runId = uuidv4();
         await client.query('BEGIN')
 
-        // Define query and values directly in the try block
         const query = `
             INSERT INTO runs (
                 run_id,
@@ -111,7 +110,7 @@ const pool = new Pool({
     } catch (error) {
         console.error('Database error:', {
             message: error.message,
-            stack: error.stack  // Just log the error stack instead
+            stack: error.stack  
         });
         throw new Error(`Failed to create run: ${error.message}`);
     }
